@@ -50,7 +50,7 @@ a:focus, a:hover { text-decoration: none; color: #f85759; }
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <!-- section-title -->
                         <div class="section-title mb-0">
-                            <h2>Date together: {{$days}} </p>
+                            <h2>Days together: {{$days}} </p>
                         </div>
                         <!-- /.section-title -->
                     </div>
