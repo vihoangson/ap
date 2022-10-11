@@ -238,4 +238,5 @@ return [
     ],
     'trello_key'=>env('TRELLO_KEY',1),
     'trello_token'=>env('TRELLO_TOKEN',2),
+    'password_app'=>env('PASSWORD_APP',1234)
 ];

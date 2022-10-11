@@ -1,9 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,14 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-
 Route::get('/', function (){
 
     if(Cache::has('pass')){
         $datetime1 = new DateTime('2022-08-06');
         $datetime2 = new DateTime('now');
         $interval = $datetime1->diff($datetime2);
-        $days =  $interval->format('%a days');
+        $days =  $interval->format('%a');
         return view('ap',['days'=>$days]); 
     }else{
         return redirect('/password');
@@ -36,11 +33,10 @@ Route::get('/password', function (Request $request){
 });
 Route::post('/password', function (Request $request){
     $password = $request->input('password');    
-    if($password == 1234){
-        Cache::put('pass','ok',5);
+    if($password == config('app.password_app',1234)){
+        Cache::put('pass','ok',3);
         return redirect('/');
     }
     return redirect('/password');
-
 });
 
