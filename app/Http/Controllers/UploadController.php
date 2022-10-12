@@ -39,11 +39,8 @@ class UploadController extends Controller {
 
         Storage::disk('local')
                ->putFileAs('files/' . $filename, $uploadedFile, $filename);
-
         $upload           = new Upload;
         $upload->filename = $filename;
-
-
         $upload->save();
 
         return response()->json([
