@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Upload;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UploadController extends Controller {
 
@@ -35,10 +38,19 @@ class UploadController extends Controller {
      */
     public function store(Request $request) {
         $uploadedFile = $request->file('file');
-        $filename     = time() . $uploadedFile->getClientOriginalName();
 
+        $img = Image::make($uploadedFile->path());
+        $img->crop(10,10);
+        $filename     = time() . $uploadedFile->getClientOriginalName();
+        $path_cache = storage_path('framework/cache/'.$filename);
+        $img->save($path_cache);
+        /** @var File $cccm */
+        $cccm = new File($path_cache);
+        $f = $cccm->move(storage_path());
+        dump($f);
+        dump($f->getPath());
         Storage::disk('public')
-               ->putFileAs('files/' . $filename, $uploadedFile, $filename);
+               ->putFileAs('files/' . $filename, $f, $filename);
         $upload           = new Upload;
         $upload->filename = $filename;
         $upload->save();
