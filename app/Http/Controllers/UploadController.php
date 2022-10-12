@@ -47,8 +47,7 @@ class UploadController extends Controller {
         /** @var File $cccm */
         $cccm = new File($path_cache);
         $f = $cccm->move(storage_path());
-        dump($f);
-        dump($f->getPath());
+
         Storage::disk('public')
                ->putFileAs('files/' . $filename, $f, $filename);
         $upload           = new Upload;
