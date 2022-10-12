@@ -14,7 +14,11 @@ class FeedController extends Controller
      */
     public function index()
     {
-        //
+        // $fs = Feed::all();
+        // foreach ($fs as $f){
+        //     $f->delete();
+        // }
+        return Feed::all();
     }
 
     /**

@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::get('/add-feed', function (){
     return view('addfeed');
 });
+Route::get('/feeds', function (){
+    return view('feeds');
+});
 Route::get('/', function (){
 
     if(Cache::has('pass')){
