@@ -18,6 +18,7 @@ class TestFeed extends TestCase
         $response = $this->post('/api/feed',['id'=>1,'content'=>1,'img_cover'=>2]);
         $response = $this->put('/api/feed/1',['content'=>1,'img_cover'=>2]);
         $response = $this->delete('/api/feed/1');
+        $response = $this->post('/api/upload',['file'=>'asdfasdf']);
         $response->assertStatus(204);
     }
 }
