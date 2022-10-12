@@ -16,7 +16,6 @@
     <div class="text-center feeds"></div>
     <div class="card" id="cardTemplate">
         <div class="card-body">
-
         </div>
     </div>
 @endsection
@@ -34,7 +33,7 @@
                     //console.log( (d.url_img));
                     // console.log(d.url_img!=null);
                     if ((d.url_img) != null) {
-                        m.find('.card-body').append('<img src="/storage/files/' + d.url_img.filename + '/' + d.url_img.filename + '">');
+                        m.find('.card-body').append('<img class="img-thumbnail" src="/storage/files/' + d.url_img.filename + '/' + d.url_img.filename + '">');
                     }
                     $('.feeds').append(m);
                 })
