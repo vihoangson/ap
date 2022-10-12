@@ -40,7 +40,7 @@ class UploadController extends Controller {
         $uploadedFile = $request->file('file');
 
         $img = Image::make($uploadedFile->path());
-        $img->crop(10,10);
+        $img->crop(100,100);
         $filename     = time() . $uploadedFile->getClientOriginalName();
         $path_cache = storage_path('framework/cache/'.$filename);
         $img->save($path_cache);
