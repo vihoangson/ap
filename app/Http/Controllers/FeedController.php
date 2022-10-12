@@ -28,9 +28,9 @@ class FeedController extends Controller
         $f = new Feed;
         $f->id = $request->input('id');
         $f->content = $request->input('content');
-        $f->img_cover = $request->input('img_cover');
+        $f->img_cover = $request->input('upload_id');
         $f->save();
-        dd($f);
+        return $f;
     }
 
     /**
@@ -55,8 +55,9 @@ class FeedController extends Controller
     {
         $f = Feed::find($id);
         $f->content = $request->input('content');
-        $f->img_cover = $request->input('img_cover');
+        $f->img_cover = $request->input('upload_id');
         $f->save();
+        return $f;
     }
 
     /**

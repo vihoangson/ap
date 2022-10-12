@@ -37,15 +37,13 @@ class UploadController extends Controller {
         $uploadedFile = $request->file('file');
         $filename     = time() . $uploadedFile->getClientOriginalName();
 
-        Storage::disk('local')
+        Storage::disk('public')
                ->putFileAs('files/' . $filename, $uploadedFile, $filename);
         $upload           = new Upload;
         $upload->filename = $filename;
         $upload->save();
 
-        return response()->json([
-            'id' => $upload->id
-        ]);
+        return response()->json($upload);
 
     }
 

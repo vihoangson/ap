@@ -13,25 +13,28 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::get('/add-feed', function (){
+    return view('addfeed');
+});
 Route::get('/', function (){
 
     if(Cache::has('pass')){
         $datetime1 = new DateTime('2022-08-05 19:00:00');
-        $datetime2 = new DateTime('now');        
+        $datetime2 = new DateTime('now');
         $interval = $datetime1->diff($datetime2);
         $days =  $interval->format('%a');
-        return view('ap',['days'=>$days]); 
+        return view('ap',['days'=>$days]);
     }else{
         return redirect('/password');
     }
-    
+
 });
 
-Route::get('/password', function (Request $request){    
-    return view('pass'); 
+Route::get('/password', function (Request $request){
+    return view('pass');
 });
 Route::post('/password', function (Request $request){
-    $password = $request->input('password');    
+    $password = $request->input('password');
     if($password == config('app.password_app',1234)){
         Cache::put('pass','ok',3);
         return redirect('/');
