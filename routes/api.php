@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::resource('money',\App\Http\Controllers\MoneyController::class);
 Route::resource('challenge',\App\Http\Controllers\ChallengeController::class);
+Route::resource('feed',\App\Http\Controllers\FeedController::class);
