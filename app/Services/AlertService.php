@@ -9,7 +9,7 @@ class AlertService {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.chatwork.com/v2/rooms/295551123/messages',
+            CURLOPT_URL => 'https://api.chatwork.com/v2/rooms/295837714/messages',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -27,7 +27,7 @@ class AlertService {
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        return $response;
 
     }
 }

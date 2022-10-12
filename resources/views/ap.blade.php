@@ -2,7 +2,7 @@
 @section('BodyContent')
 <div class="text-center">
     <h2>Days together</h2>
-    <div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+    <div id="MyClockDisplay" class="clock"></div>
 </div>
 @endsection
 @section('FooterContent')
