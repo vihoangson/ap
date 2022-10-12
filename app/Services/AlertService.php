@@ -5,7 +5,7 @@ namespace App\Services;
 class AlertService {
 
     public static function chatwork(string $message) {
-        $message = config('app.url')." : ".$message;
+        $message = '[toall]'. config('app.url')." : ".$message;
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
