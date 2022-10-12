@@ -16,8 +16,8 @@ use Illuminate\Http\Request;
 Route::get('/', function (){
 
     if(Cache::has('pass')){
-        $datetime1 = new DateTime('2022-08-06');
-        $datetime2 = new DateTime('now');
+        $datetime1 = new DateTime('2022-08-05 19:00:00');
+        $datetime2 = new DateTime('now');        
         $interval = $datetime1->diff($datetime2);
         $days =  $interval->format('%a');
         return view('ap',['days'=>$days]); 
@@ -27,8 +27,7 @@ Route::get('/', function (){
     
 });
 
-Route::get('/password', function (Request $request){
-
+Route::get('/password', function (Request $request){    
     return view('pass'); 
 });
 Route::post('/password', function (Request $request){
