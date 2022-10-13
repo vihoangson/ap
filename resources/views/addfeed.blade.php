@@ -2,7 +2,7 @@
 @section('BodyContent')
     <div class="text-center">
         <div><img src="" id="img" class="d-none"></div>
-        <input type="file" id="sortpicture" class="d-none">
+        <input type="file" id="sortpicture" class="d-none" accept="image/png, image/gif, image/jpeg" >
         <button class="btn btn-info" id="upload">UPLOAD</button>
         <div>
             <input type="hidden" id="upload_id">

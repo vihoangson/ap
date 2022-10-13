@@ -39,8 +39,30 @@ class UploadController extends Controller {
     public function store(Request $request) {
         $uploadedFile = $request->file('file');
 
+        if(!(substr($uploadedFile->getMimeType(), 0, 5) == 'image')) {
+            return 0;
+        }
+
+        $uploadedFile->getClientOriginalExtension();
+        $image = Image::make($uploadedFile->path());
+        $filename_hashed = time().'_'.md5($uploadedFile->getClientOriginalName()).'.'.$uploadedFile->getClientOriginalExtension();
+        $image->save(storage_path('framework/cache/'.'origin_'.$filename_hashed));
+        if($image->width()>1000 && $image->height()>1000){
+            $image->fit(1000, 1000)->save(storage_path('framework/cache/'.'huge_'.$filename_hashed));
+        }
+        if($image->width()>600 && $image->height()>600) {
+            $image->fit(600, 600)
+                  ->save(storage_path('framework/cache/' . 'large_' . $filename_hashed));
+        }
+        if($image->width()>400 && $image->height()>400){
+            $image->fit(400, 400)->save(storage_path('framework/cache/'.'medium_'.$filename_hashed));
+        }
+
+        $image->fit(150, 150)->save(storage_path('framework/cache/'.'thumbnail_'.$filename_hashed));
+
         $img = Image::make($uploadedFile->path());
-        $img->resize(100,100);
+        // $img->resize(100,100);
+        $img->fit(100,100);
         $filename     = time() . $uploadedFile->getClientOriginalName();
         $path_cache = storage_path('framework/cache/'.$filename);
         $img->save($path_cache);
