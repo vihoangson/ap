@@ -2,7 +2,7 @@
 @section('BodyContent')
     <div class="text-center">
         <div><img src="" id="img" class="d-none"></div>
-        <input type="file" id="sortpicture" class="d-none" accept="image/png, image/gif, image/jpeg" >
+        <input type="file" id="sortpicture" class="d-none" accept="image/png, image/gif, image/jpeg">
         <button class="btn btn-info" id="upload">UPLOAD</button>
         <div>
             <input type="hidden" id="upload_id">
@@ -35,7 +35,7 @@
                     if ((d.url_img) != null) {
                         m.find('.card-body').append('<img class="img-thumbnail" src="/storage/files/' + d.url_img.filename + '/' + d.url_img.filename + '">');
                     }
-                    $('.feeds').append(m);
+                    $('.feeds').prepend(m);
                 })
             })
         }
