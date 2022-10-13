@@ -1,4 +1,6 @@
 <?php
+
+use App\Services\RouteService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -45,3 +47,8 @@ Route::post('/password', function (Request $request){
     return redirect('/password');
 });
 
+Route::get('/content', function (){
+
+    return RouteService::content();
+
+});

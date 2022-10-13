@@ -6,6 +6,7 @@ use App\Models\Feed;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 class FlushallFeed extends Command
 {
@@ -40,6 +41,7 @@ class FlushallFeed extends Command
      */
     public function handle()
     {
+        Redis::keys('aaa');
         $ts = Feed::all();
         foreach ($ts as $t){
             $t->delete();
