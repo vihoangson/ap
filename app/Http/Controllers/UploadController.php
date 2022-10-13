@@ -44,7 +44,7 @@ class UploadController extends Controller {
         }
 
         $uploadedFile->getClientOriginalExtension();
-        $image = Image::make($uploadedFile->path());
+        $image = Image::make($uploadedFile->path())->orientate();
         $filename_hashed = time().'_'.md5($uploadedFile->getClientOriginalName()).'.'.$uploadedFile->getClientOriginalExtension();
         $image->save(storage_path('framework/cache/'.'origin_'.$filename_hashed));
         if($image->width()>1000 && $image->height()>1000){
