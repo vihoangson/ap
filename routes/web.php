@@ -52,3 +52,13 @@ Route::get('/content', function (){
     return RouteService::content();
 
 });
+
+Route::get('/sent-chat', function (){
+    event(new App\Events\StatusLiked('Someone'));
+    return "Event has been sent!";
+});
+Route::get('/chat', function (){
+
+    return view('chat');
+
+});
