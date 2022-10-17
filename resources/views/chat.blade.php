@@ -1,9 +1,14 @@
 @extends('layouts.app1')
 @section('BodyContent')
-<div class="text-center">
-    <h2>Days together</h2>
-    <div id="MyClockDisplay" class="clock"></div>
-</div>
+    <div class="text-center">
+        <h2>Chat</h2>
+        <div id="wrapMessage">
+            @foreach ($ms as $m)
+                <div class="ele-message">{{$m->message}}</div>
+            @endforeach
+        </div>
+        <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
+    </div>
 @endsection
 @section('FooterContent')
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
@@ -18,8 +23,20 @@
         var channel = pusher.subscribe('status-liked');
 
         // Bind a function to a Event (the full Laravel class)
-        channel.bind('App\\Events\\StatusLiked', function(data) {
-            alert(data);
+        channel.bind('App\\Events\\StatusLiked', (data) => {
+            addMessage(data.username);
         });
+
+        function addMessage(m) {
+            $('#wrapMessage').append($('<div class="ele-message">').html(m));
+        }
+        $(".input-text").keyup((e)=>{
+            if(e.which ===13){
+                let textInput = $(".input-text").val();
+                $.post('/api/message',{"message":textInput});
+            }
+        })
+
+
     </script>
 @endsection

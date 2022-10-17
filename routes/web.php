@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Message;
 use App\Services\RouteService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -54,11 +55,11 @@ Route::get('/content', function (){
 });
 
 Route::get('/sent-chat', function (){
-    event(new App\Events\StatusLiked('Someone'));
+    event(new App\Events\StatusLiked('Som sdfsd ádfasdfsd eone'));
     return "Event has been sent!";
 });
 Route::get('/chat', function (){
+    $ms = Message::all();
 
-    return view('chat');
-
+    return view('chat',['ms'=>$ms]);
 });
