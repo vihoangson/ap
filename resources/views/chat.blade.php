@@ -30,9 +30,9 @@
             max-width: 700px;
             padding: 2px 18px;
             margin: 6px 8px;
-            background-color: #5b5377;
+            background-color: #d596a0;
             border-radius: 16px 16px 0 16px;
-            border: 1px solid #443f56;
+            border: 1px solid #ddb0b7;
 
         }
 
@@ -49,10 +49,14 @@
 
         .own {
             align-self: flex-end;
+            text-align: right;
+
         }
 
         .other {
             align-self: flex-start;
+            text-align: left;
+
         }
 
         span.own,
