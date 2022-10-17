@@ -82,6 +82,13 @@
         .card-block{
             padding:13px;
         }
+
+        @media only screen and (max-width: 800px) {
+            .page-caption {
+                padding-top: 34px;
+                padding-bottom: 62px;
+            }
+        }
     </style>
 @endsection
 @section('BodyContent')
