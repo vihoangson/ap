@@ -4,9 +4,11 @@
     <style>
         .type1{
             color:deeppink;
+            text-align: left;
         }
         .type2{
             color:darkslateblue;
+            text-align: right;
         }
     </style>
 @endsection
