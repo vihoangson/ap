@@ -3,6 +3,7 @@
 <div class="text-center">
     <h2>Days together</h2>
     <div id="MyClockDisplay" class="clock"></div>
+    <div><a class="btn btn-primary" href="/chat">Chat</a></div>
 </div>
 @endsection
 @section('FooterContent')
