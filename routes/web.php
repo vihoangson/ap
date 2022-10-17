@@ -60,7 +60,6 @@ Route::get('/content', function () {
 Route::get('/chat', function () {
     if (Cache::has('passchat')) {
         $ms = Message::all();
-
         return view('chat', ['ms' => $ms]);
     } else {
         return view('pass', ['action' => '/chat']);
@@ -70,7 +69,6 @@ Route::post('/chat', function (Request $request) {
     $password = $request->input('password');
     if ($password == config('app.password_app', 1234)) {
         Cache::put('passchat', 'ok', 600);
-
         return redirect('/chat');
     }
 

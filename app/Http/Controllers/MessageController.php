@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\StatusLiked;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller {
 
@@ -30,6 +31,7 @@ class MessageController extends Controller {
         $m       = new Message(['message' => $message, 'userid' => $userid]);
         $m->save();
         event(new StatusLiked($m));
+        Cache::put('passchat', 'ok', 600);
 
         return $message;
     }
