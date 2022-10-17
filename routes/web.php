@@ -45,32 +45,17 @@ Route::post('/password', function (Request $request) {
     $password = $request->input('password');
     if ($password == config('app.password_app', 1234)) {
         Cache::put('pass', 'ok', 3);
-
         return redirect('/');
     }
-
     return redirect('/password');
 });
 
 Route::get('/content', function () {
     return RouteService::content();
-
 });
 
 Route::get('/chat', function () {
-    if (Cache::has('passchat')) {
-        $ms = Message::all();
-        return view('chat', ['ms' => $ms]);
-    } else {
-        return view('pass', ['action' => '/chat']);
-    }
+    $ms = Message::all();
+    return view('chat', ['ms' => $ms]);
 });
-Route::post('/chat', function (Request $request) {
-    $password = $request->input('password');
-    if ($password == config('app.password_app', 1234)) {
-        Cache::put('passchat', 'ok', 600);
-        return redirect('/chat');
-    }
 
-    return redirect('/password');
-});

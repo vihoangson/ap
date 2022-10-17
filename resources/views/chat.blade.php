@@ -119,10 +119,11 @@
 @section('FooterContent')
     <script>
         var config = {
-            time_count: 1000
+            time_count: 10000
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
+
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
         $(".card-block").click(()=>{
