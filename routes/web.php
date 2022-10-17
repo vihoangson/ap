@@ -49,17 +49,23 @@ Route::post('/password', function (Request $request){
 });
 
 Route::get('/content', function (){
-
     return RouteService::content();
 
 });
 
-Route::get('/sent-chat', function (){
-    event(new App\Events\StatusLiked('Som sdfsd ádfasdfsd eone'));
-    return "Event has been sent!";
-});
 Route::get('/chat', function (){
-    $ms = Message::all();
-
-    return view('chat',['ms'=>$ms]);
+    if(Cache::has('passchat')){
+        $ms = Message::all();
+        return view('chat',['ms'=>$ms]);
+    }else{
+        return view('pass',['action'=>'/chat']);
+    }
+});
+Route::post('/chat', function (Request $request){
+    $password = $request->input('password');
+    if($password == config('app.password_app',1234)){
+        Cache::put('passchat','ok',3);
+        return redirect('/chat');
+    }
+    return redirect('/password');
 });

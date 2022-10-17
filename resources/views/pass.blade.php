@@ -12,12 +12,12 @@
 
 
 
-<form method="post">
-    <h2><input type="password" class='form-control' name='password'> </p>
+<form method="post" action="{{$action??'/password'}}">
+    <input type="password" class='form-control' name='password'>
 </form>
 @endsection
 @section('FooterContent')
-<script type="text/javascript">        
+<script type="text/javascript">
 
 </script>
 @endsection

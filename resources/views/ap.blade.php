@@ -7,13 +7,12 @@
 @endsection
 @section('FooterContent')
     <script>
-        const COUNT_TIME = 100;
+        var config = {
+            time_count: 100
+        }
     </script>
     <script src="/js/countdownloadpage.js"></script>
     <script>
-
-
-
         function showTime(){
             var pastDate = new Date('2022-08-06T18:00:00');
             var date = new Date();
