@@ -11,6 +11,6 @@ setInterval(()=>{
     }else{
         $(".progress-bar").css({"width":i+"%"});
         i+=1;
-        console.log(i);
     }
 }, config.time_count);
+console.log(config.time_count);

@@ -119,7 +119,7 @@
 @section('FooterContent')
     <script>
         var config = {
-            time_count: 10000
+            time_count: 1000
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
