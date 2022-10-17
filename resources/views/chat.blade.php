@@ -18,7 +18,7 @@
 
         <div id="wrapMessage">
             @foreach ($ms as $m)
-                <div class="ele-message type{{$m->userid}}">{{$m->message}} - {{$m->userid}}</div>
+                <div class="ele-message type{{$m->userid}}">{{$m->message}}</div>
             @endforeach
         </div>
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
