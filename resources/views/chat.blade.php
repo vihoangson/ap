@@ -79,6 +79,9 @@
             overflow: auto;
             height: 338px;
         }
+        .card-block{
+            padding:13px;
+        }
     </style>
 @endsection
 @section('BodyContent')
