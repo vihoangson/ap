@@ -33,6 +33,7 @@
         $(".input-text").keyup((e)=>{
             if(e.which ===13){
                 let textInput = $(".input-text").val();
+                $(".input-text").val('');
                 $.post('/api/message',{"message":textInput});
             }
         })
