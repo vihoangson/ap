@@ -27,6 +27,10 @@
     </div>
 @endsection
 @section('FooterContent')
+    <script>
+        const COUNT_TIME = 1000;
+    </script>
+    <script src="/js/countdownloadpage.js"></script>
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
 
@@ -47,15 +51,13 @@
             $('#wrapMessage').append($('<div class="ele-message type'+m.userid+'">').html(m.message));
         }
         $(".input-text").keyup((e)=>{
+            i = 1;
             if(e.which ===13){
-
                 let userid = $(".userid:checked").val();
                 let textInput = $(".input-text").val();
                 $(".input-text").val('');
                 $.post('/api/message',{"message":textInput,"userid":userid});
             }
         })
-
-
     </script>
 @endsection
