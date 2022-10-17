@@ -119,7 +119,7 @@
 @section('FooterContent')
     <script>
         var config = {
-            time_count: 10000
+            time_count: 1000
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
@@ -127,7 +127,7 @@
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
         $(".card-block").click(()=>{
-            i = 0;
+            timeoutPage = 0;
         })
 
         var pusher = new Pusher('78735b7d18aa1796faad', {
