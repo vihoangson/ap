@@ -1,12 +1,24 @@
 @extends('layouts.app1')
+
+@section('HeaderContent')
+    <style>
+        .type1{
+            color:deeppink;
+        }
+        .type2{
+            color:darkslateblue;
+        }
+    </style>
+@endsection
 @section('BodyContent')
     <div class="text-center">
         <h2>Chat</h2>
-        <<input type="radio" name="userid" value="1">
+        <input type="radio" class="userid" name="userid" value="1" checked id="userid1"> <label for="userid1" >Em</label>
+        <input type="radio" class="userid" name="userid" value="2"  id="userid2"> <label for="userid2" >Anh</label>
 
         <div id="wrapMessage">
             @foreach ($ms as $m)
-                <div class="ele-message">{{$m->message}}</div>
+                <div class="ele-message type{{$m->userid}}">{{$m->message}} - {{$m->userid}}</div>
             @endforeach
         </div>
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
@@ -26,17 +38,19 @@
 
         // Bind a function to a Event (the full Laravel class)
         channel.bind('App\\Events\\StatusLiked', (data) => {
-            addMessage(data.username);
+            addMessage(data);
         });
 
         function addMessage(m) {
-            $('#wrapMessage').append($('<div class="ele-message">').html(m));
+            $('#wrapMessage').append($('<div class="ele-message type'+m.userid+'">').html(m.message));
         }
         $(".input-text").keyup((e)=>{
             if(e.which ===13){
+
+                let userid = $(".userid:checked").val();
                 let textInput = $(".input-text").val();
                 $(".input-text").val('');
-                $.post('/api/message',{"message":textInput});
+                $.post('/api/message',{"message":textInput,"userid":userid});
             }
         })
 
