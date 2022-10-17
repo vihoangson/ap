@@ -2,6 +2,8 @@
 @section('BodyContent')
     <div class="text-center">
         <h2>Chat</h2>
+        <<input type="radio" name="userid" value="1">
+
         <div id="wrapMessage">
             @foreach ($ms as $m)
                 <div class="ele-message">{{$m->message}}</div>

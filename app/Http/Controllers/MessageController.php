@@ -64,6 +64,8 @@ class MessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ms = Message::find($id);
+        $ms->delete();
+        return true;
     }
 }
