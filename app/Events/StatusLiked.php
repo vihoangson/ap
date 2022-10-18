@@ -10,22 +10,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class StatusLiked implements ShouldBroadcast
-{
+class StatusLiked implements ShouldBroadcast {
+
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $userid;
 
     public $message;
+    public $data;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
-    {
-        $this->userid = $message->userid;
-        $this->message  = $message->message;
+    public function __construct($message) {
+        $this->userid  = $message->userid;
+        $this->message = $message->message;
+        $this->data    = $message;
     }
 
     /**
@@ -33,8 +35,7 @@ class StatusLiked implements ShouldBroadcast
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn()
-    {
+    public function broadcastOn() {
         return ['status-liked'];
     }
 }

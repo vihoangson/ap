@@ -79,8 +79,9 @@
             overflow: auto;
             height: 338px;
         }
-        .card-block{
-            padding:13px;
+
+        .card-block {
+            padding: 13px;
         }
 
         @media only screen and (max-width: 800px) {
@@ -93,7 +94,6 @@
 @endsection
 @section('BodyContent')
 
-
     <div class="text-center">
         <h2>Chat</h2>
         <input type="radio" class="userid" name="userid" value="1" checked id="userid1"> <label for="userid1">Em</label>
@@ -105,7 +105,7 @@
                     <div class="inlineContainer {{$m->userid ==1?'own':''}}">
                         <img class="inlineIcon d-none"
                              src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
-                        <div class="msgcontent {{$m->userid ==2?'otherBubble other':'ownBubble own'}}">
+                        <div class="msgcontent {{$m->userid ==2?'otherBubble other':'ownBubble own'}}" data-id="{{$m->id}}">
                             {{$m->message}}
                         </div>
                     </div>
@@ -114,6 +114,22 @@
             @endforeach
         </div>
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="modal-btn-si">Si</button>
+                    <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section('FooterContent')
@@ -126,7 +142,37 @@
 
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
-        $(".card-block").click(()=>{
+        var idm =0;
+        $(document).on('click', '.bubbleWrapper', (event) => {
+            console.log(event.target);
+            console.log($(event.target).find('.msgcontent'));
+            idm = $(event.target).find('.msgcontent').first().attr('data-id');
+            console.log(idm)
+            $("#mi-modal .modal-footer").append(idm);
+            $("#mi-modal").modal('show');
+        });
+
+        $(document).on('click', '#modal-btn-si', () => {
+            console.log(idm);
+            return ;
+            $.ajax({
+                url: '/api/message/'+idm,
+                type: 'DELETE',
+                // data: {movie:movie}, //<-----this should be an object.
+                contentType:'application/json',  // <---add this
+                dataType: 'text',                // <---update this
+                success: function(result) {
+                    alert('success');
+                },
+                error: function(result){
+                    alert('error');
+                }
+            });
+        });
+
+
+
+        $(".card-block").click(() => {
             timeoutPage = 0;
         })
 
