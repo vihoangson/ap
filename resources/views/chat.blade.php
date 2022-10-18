@@ -90,6 +90,11 @@
                 padding-bottom: 62px;
             }
         }
+        a.btnlogout.btn.btn-secondary {
+            position: fixed;
+            top: 4px;
+            right: 0px;
+        }
     </style>
 @endsection
 @section('BodyContent')
@@ -115,7 +120,9 @@
         </div>
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
     </div>
-    <div class="text-center"><a class="btn btn-secondary" href="/logout">Logout</a></div>
+
+    <div class="text-center"><button class="btn btn-primary" onclick="sendMessage()">Send</button> <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
+    <div class="text-center"></div>
 
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
         <div class="modal-dialog modal-sm">
@@ -218,11 +225,14 @@
         $(".input-text").keyup((e) => {
             i = 1;
             if (e.which === 13) {
-                let userid = $(".userid:checked").val();
-                let textInput = $(".input-text").val();
-                $(".input-text").val('');
-                $.post('/api/message', {"message": textInput, "userid": userid});
+                sendMessage();
             }
         })
+        function sendMessage(){
+            let userid = $(".userid:checked").val();
+            let textInput = $(".input-text").val();
+            $(".input-text").val('');
+            $.post('/api/message', {"message": textInput, "userid": userid});
+        }
     </script>
 @endsection
