@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\StatusLiked;
 use App\Models\Message;
+use App\Services\AlertService;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller {
@@ -30,7 +31,7 @@ class MessageController extends Controller {
         $m       = new Message(['message' => $message, 'userid' => $userid]);
         $m->save();
         event(new StatusLiked($m));
-
+        AlertService::chatwork($m->message);
         return $message;
     }
 
