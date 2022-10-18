@@ -115,7 +115,7 @@
         </div>
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
     </div>
-
+    <div class="text-center"><a class="btn btn-secondary" href="/logout">Logout</a></div>
 
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
         <div class="modal-dialog modal-sm">
