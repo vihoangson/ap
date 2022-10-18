@@ -6,6 +6,7 @@ use App\Events\StatusLiked;
 use App\Models\Message;
 use App\Services\AlertService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller {
 
@@ -32,6 +33,8 @@ class MessageController extends Controller {
         $m->save();
         event(new StatusLiked($m));
         AlertService::chatwork($m->message);
+        Cache::put('passchat', 'ok', 600);
+
         return $message;
     }
 

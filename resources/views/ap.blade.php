@@ -3,17 +3,17 @@
 <div class="text-center">
     <h2>Days together</h2>
     <div id="MyClockDisplay" class="clock"></div>
+    <div class="pt-3"><a class="btn btn-primary" href="/chat">Nhắn tin</a></div>
 </div>
 @endsection
 @section('FooterContent')
     <script>
-        const COUNT_TIME = 100;
+        var config = {
+            time_count: 100
+        }
     </script>
     <script src="/js/countdownloadpage.js"></script>
     <script>
-
-
-
         function showTime(){
             var pastDate = new Date('2022-08-06T18:00:00');
             var date = new Date();
