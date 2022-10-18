@@ -131,7 +131,7 @@
         })
 
         var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
-            cluster: '{{config('broadcasting.connections.pusher.cluster')}}',
+            cluster: '{{config('broadcasting.connections.pusher.options.cluster')}}',
             encrypted: true
         });
 
