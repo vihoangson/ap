@@ -130,8 +130,8 @@
             timeoutPage = 0;
         })
 
-        var pusher = new Pusher('78735b7d18aa1796faad', {
-            cluster: 'ap1',
+        var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
+            cluster: '{{config('broadcasting.connections.pusher.cluster')}}',
             encrypted: true
         });
 
