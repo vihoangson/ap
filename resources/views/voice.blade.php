@@ -22,6 +22,7 @@
             right: 100px;
             position: relative;
         }
+
         #stopRecord {
             background-color: green; /* Green */
             border-width: medium;
@@ -41,10 +42,12 @@
             right: 100px;
             position: relative;
         }
+
         h2 {
             left: 100px;
             position: relative;
         }
+
         #recordedAudio {
             left: 100px;
             right: 100px;
@@ -55,38 +58,63 @@
 
 <body style="background-color:rgb(101, 185, 17); ">
 
-<h2>Record</h2>
-<p>
-    <button id=record></button>
-    <button id=stopRecord disabled>Stop</button>
-</p>
-<p>
-    <audio id=recordedAudio></audio>
-
-</p>
+<button onclick='startStreamedAudio()'>1</button>
+<button onclick='stopStreamedAudio()'>2</button>
+<button onclick='uploadAudio()'>3</button>
+<audio id="wavSource" type="audio/wav" controls></audio>
 <script
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
 <script>
-    navigator.mediaDevices.getUserMedia({audio:true})
-        .then(stream => {handlerFunction(stream)})
 
-
-    function handlerFunction(stream) {
-        rec = new MediaRecorder(stream);
-        rec.ondataavailable = e => {
-            audioChunks.push(e.data);
-            if (rec.state == "inactive"){
-                let blob = new Blob(audioChunks,{type:'audio/wav'});
-                recordedAudio.src = URL.createObjectURL(blob);
-                recordedAudio.controls=true;
-                recordedAudio.autoplay=true;
-                sendData(blob)
-            }
-        }
+    let chunks = []; //will be used later to record audio
+    let mediaRecorder = null; //will be used later to record audio
+    let audioBlob = null;
+    document.getElementById("wavSource").style.display = 'none';
+    function stopStreamedAudio() {
+        mediaRecorder.stop();
     }
-    var form = new FormData();
+
+    function startStreamedAudio() {
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+        })
+            .then((stream) => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                mediaRecorder.ondataavailable = (e) => {
+                    chunks.push(e.data);
+                };
+                mediaRecorder.onstop = () => {
+                    let stream = mediaRecorder.stream;
+                    let tracks = stream.getTracks();
+
+                    tracks.forEach((track) => {
+                        track.stop();
+                    });
+                    document.getElementById("wavSource").style.display = 'block';
+                    let audioBlob = new Blob(chunks, {type: 'audio/wav'});
+                    let blobURL = window.URL.createObjectURL(audioBlob);
+                    document.getElementById("wavSource").src = blobURL;
+                    document.getElementById("wavSource").play();
+                    //reset to default
+                    mediaRecorder = null;
+                    //chunks = [];
+
+                };
+            })
+            .catch((err) => {
+                alert(`The following error occurred: ${err}`);
+            });
+    }
+    function uploadAudio(){
+        let audioBlob = new Blob(chunks, {type: 'audio/wav'});
+        sendData(audioBlob);
+        document.getElementById("wavSource").style.display = 'none';
+        chunks = [];
+    }
+
     function sendData(data) {
         var fd = new FormData();
         fd.append('filename', 'test.wav');
@@ -97,27 +125,9 @@
             data: fd,
             processData: false,
             contentType: false
-        }).done(function(data) {
+        }).done(function (data) {
             console.log(data);
         });
-    }
-
-    record.onclick = e => {
-        console.log('I was clicked')
-        record.disabled = true;
-        record.style.backgroundColor = "blue"
-        stopRecord.disabled=false;
-        audioChunks = [];
-        rec.start();
-    }
-    stopRecord.onclick = e => {
-        console.log("I was clicked")
-        record.disabled = false;
-        stop.disabled=true;
-        record.style.backgroundColor = "red"
-        rec.stop();
-
-
     }
 </script>
 </body>

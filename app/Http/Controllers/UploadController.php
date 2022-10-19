@@ -30,10 +30,12 @@ class UploadController extends Controller {
     }
     public function uploadFile($f,$filename=null)
     {
+        $path = 'files/' . $filename;
         Storage::disk('public')
-               ->putFileAs('files/' . $filename, $f, $filename);
+               ->putFileAs($path, $f, $filename);
         $upload           = new Upload;
         $upload->filename = $filename;
+
         $upload->save();
     }
     /**
