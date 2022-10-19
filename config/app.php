@@ -9734,6 +9734,14 @@ return [
                   "created_at" => "2020-07-28 09:22:06",
                   "updated_at" => "2020-07-28 02:22:06",
               ),
+              '4905288'=>array(
+                  "id_sns" => 388,
+                  "id_cw" => 4905288,
+                  "name" => "Takashi YONESAKA",
+                  "is_dummy" => 0,
+                  "created_at" => "2020-07-28 09:22:06",
+                  "updated_at" => "2020-07-28 02:22:06",
+              ),
               '4427873'=>array(
                   "id_sns" => 388,
                   "id_cw" => 4427873,
