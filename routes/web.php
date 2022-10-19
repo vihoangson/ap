@@ -59,3 +59,6 @@ Route::get('/chat', function () {
     return view('chat', ['ms' => $ms]);
 });
 
+Route::get('/voice', function (Request $request) {
+    return view ('voice');
+});

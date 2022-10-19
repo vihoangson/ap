@@ -28,7 +28,14 @@ class UploadController extends Controller {
     public function create() {
         //
     }
-
+    public function uploadFile($f,$filename=null)
+    {
+        Storage::disk('public')
+               ->putFileAs('files/' . $filename, $f, $filename);
+        $upload           = new Upload;
+        $upload->filename = $filename;
+        $upload->save();
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -38,8 +45,14 @@ class UploadController extends Controller {
      */
     public function store(Request $request) {
         $uploadedFile = $request->file('file');
-
+        $filename = $request->input('filename');
         if(!(substr($uploadedFile->getMimeType(), 0, 5) == 'image')) {
+            $filename = time().'_'.$filename;
+            $f = $uploadedFile;
+
+
+            $this->uploadFile($f,$filename);
+
             return 0;
         }
 
@@ -70,11 +83,7 @@ class UploadController extends Controller {
         $cccm = new File($path_cache);
         $f = $cccm->move(storage_path());
 
-        Storage::disk('public')
-               ->putFileAs('files/' . $filename, $f, $filename);
-        $upload           = new Upload;
-        $upload->filename = $filename;
-        $upload->save();
+        $this->uploadFile($f,$filename);
 
         return response()->json($upload);
 
