@@ -2,6 +2,14 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
     <style type="text/css">
         #record {
             background-color: red; /* Green */
@@ -56,16 +64,51 @@
     </style>
 </head>
 
-<body style="background-color:rgb(101, 185, 17); ">
-
+<body>
+<button onclick="notifyMe('sssss')">Notify me!</button>
 <button onclick='startStreamedAudio()'>1</button>
 <button onclick='stopStreamedAudio()'>2</button>
 <button onclick='uploadAudio()'>3</button>
-<audio id="wavSource" type="audio/wav" controls></audio>
+
+<div><audio id="wavSource" type="audio/wav" controls style="display:none;"></audio></div>
+
 <script
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
+<script src="//js.pusher.com/3.1/pusher.min.js"></script>
+<script>
+
+    var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
+        cluster: '{{config('broadcasting.connections.pusher.options.cluster')}}',
+        encrypted: true
+    });
+    // Subscribe to the channel we specified in our Laravel Event
+    var channel = pusher.subscribe('status-liked');
+    // Bind a function to a Event (the full Laravel class)
+    channel.bind('App\\Events\\StatusLiked', (data) => {
+        notifyMe(data.message);
+    });
+
+    function notifyMe(message) {
+        if (!("Notification" in window)) {
+            // Check if the browser supports notifications
+            alert("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+            // Check whether notification permissions have already been granted;
+            // if so, create a notification
+            const notification = new Notification(message);
+            // …
+        } else if (Notification.permission !== "denied") {
+            // We need to ask the user for permission
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    const notification = new Notification(message);
+                }
+            });
+        }
+    }
+</script>
 <script>
 
     let chunks = []; //will be used later to record audio
@@ -94,7 +137,7 @@
                         track.stop();
                     });
                     document.getElementById("wavSource").style.display = 'block';
-                    let audioBlob = new Blob(chunks, {type: 'audio/wav'});
+                    let audioBlob = new Blob(chunks, {type: 'audio/mpeg3'});
                     let blobURL = window.URL.createObjectURL(audioBlob);
                     document.getElementById("wavSource").src = blobURL;
                     document.getElementById("wavSource").play();
@@ -117,7 +160,7 @@
 
     function sendData(data) {
         var fd = new FormData();
-        fd.append('filename', 'test.wav');
+        fd.append('filename', 'test.mp3');
         fd.append('file', data);
         $.ajax({
             type: 'POST',
