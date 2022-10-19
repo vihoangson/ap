@@ -12558,7 +12558,8 @@ return [
                   "created_at" => "2020-05-12 20:45:26",
                   "updated_at" => "0000-00-00 00:00:00",
               ),
-          ]
+          ],
+          'folder_backup'=>env('FOLDER_BACKUP','backup_annie')
 
 
 

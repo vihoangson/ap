@@ -48,8 +48,7 @@ class BackupFileDB extends Command {
         $file   = File::copy(database_path('database.sqlite'), $target);
         AlertService::chatwork(' Backup file DB: ' . $target);
         $file = File::get($target);
-        Storage::disk('s3')
-               ->put('backup_annie/' . basename($target), $file);
+        Storage::disk('s3')->put(config('app.folder_backup','backup_annie').'/' . basename($target), $file);
 
         return 0;
     }

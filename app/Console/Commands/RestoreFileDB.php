@@ -52,7 +52,7 @@ class RestoreFileDB extends Command {
         }
 
         if(!$this->argument('input')){
-            $files = Storage::disk('s3')->allFiles('backup_annie');
+            $files = Storage::disk('s3')->allFiles(config('app.folder_backup','backup_annie'));
             usort($files,function($a,$b){
                 preg_match('/.([0-9]+)$/',$a,$match1);
                 preg_match('/.([0-9]+)$/',$b,$match2);
