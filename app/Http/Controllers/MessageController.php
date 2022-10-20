@@ -71,7 +71,6 @@ class MessageController extends Controller {
      */
     public function destroy($id) {
         Artisan::call('backup:db');
-        sleep(3);
         $ms = Message::find($id);
         $ms->delete();
         return true;
