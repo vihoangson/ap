@@ -90,6 +90,7 @@
                 padding-bottom: 62px;
             }
         }
+
         a.btnlogout.btn.btn-secondary {
             position: fixed;
             top: 4px;
@@ -110,7 +111,8 @@
                     <div class="inlineContainer {{$m->userid ==1?'own':''}}">
                         <img class="inlineIcon d-none"
                              src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
-                        <div class="msgcontent {{$m->userid ==2?'otherBubble other':'ownBubble own'}}" data-id="{{$m->id}}">
+                        <div class="msgcontent {{$m->userid ==2?'otherBubble other':'ownBubble own'}}"
+                             data-id="{{$m->id}}">
                             {{$m->message}}
                         </div>
                     </div>
@@ -121,7 +123,9 @@
         <input type="text" name="input-text" class="form-control input-text" placeholder="Chat message">
     </div>
 
-    <div class="text-center"><button class="btn btn-primary" onclick="sendMessage()">Send</button> <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
+    <div class="text-center">
+        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+        <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
     <div class="text-center"></div>
 
 
@@ -160,19 +164,20 @@
         $(document).on('click', '.bubbleWrapper', (event) => {
             current_target = event.target;
             current_target_id = $(current_target).attr('data-id');
+            console.log(current_target_id);
             $("#mi-modal").modal('show');
         });
 
-        $(".thuhoi").click(()=>{
+        $(".thuhoi").click(() => {
             $.ajax({
-                url: '/api/message/'+current_target_id,
+                url: '/api/message/' + current_target_id,
                 type: 'DELETE',
-                contentType:'application/json',  // <---add this
+                contentType: 'application/json',  // <---add this
                 dataType: 'text',                // <---update this
-                success: function(result) {
+                success: function (result) {
                     location.reload();
                 },
-                error: function(result){
+                error: function (result) {
                     alert('error');
                 }
             });
@@ -206,6 +211,7 @@
         function addMessage(m) {
             let mss = $(".bubbleWrapper").first().clone();
             $(mss).find('.msgcontent').html(m.message);
+            $(mss).find('.msgcontent').attr('data-id', m.data.id);
             if (m.userid == 2) {
                 $(mss).find('.msgcontent').addClass('otherBubble other');
                 $(mss).find('.msgcontent').removeClass('ownBubble own');
@@ -228,7 +234,8 @@
                 sendMessage();
             }
         })
-        function sendMessage(){
+
+        function sendMessage() {
             let userid = $(".userid:checked").val();
             let textInput = $(".input-text").val();
             $(".input-text").val('');
