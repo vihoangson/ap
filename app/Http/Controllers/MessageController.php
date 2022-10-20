@@ -6,6 +6,7 @@ use App\Events\StatusLiked;
 use App\Models\Message;
 use App\Services\AlertService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller {
@@ -69,9 +70,10 @@ class MessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
+        Artisan::call('backup:db');
+        sleep(3);
         $ms = Message::find($id);
         $ms->delete();
-
         return true;
     }
 }
