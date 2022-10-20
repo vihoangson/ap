@@ -1,6 +1,7 @@
 @extends('layouts.app1')
 @section('HeaderContent')
-    <style href="/css/chat.css"></style>
+    <link rel="stylesheet/less" type="text/css" href="/css/chat.less" />
+    <script src="/js/less.js" type="text/javascript"></script>
 @endsection
 @section('BodyContent')
 
@@ -60,6 +61,7 @@
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
+
 
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
