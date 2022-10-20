@@ -1,6 +1,6 @@
 @extends('layouts.app1')
 @section('HeaderContent')
-    <link rel="stylesheet/less" type="text/css" href="/css/chat.less" />
+    <link rel="stylesheet/less" type="text/css" href="/css/chat.less"/>
     <script src="/js/less.js" type="text/javascript"></script>
 @endsection
 @section('BodyContent')
@@ -61,14 +61,47 @@
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
-
-
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
+        var MessageService = {
+            addMessage: (m) => {
+                let mss = $(".bubbleWrapper").first().clone();
+                $(mss).find('.msgcontent').html(m.message);
+                $(mss).find('.msgcontent').attr('data-id', m.data.id);
+                if (m.userid == 2) {
+                    $(mss).find('.msgcontent').addClass('otherBubble other');
+                    $(mss).find('.msgcontent').removeClass('ownBubble own');
+                    $(mss).find('.inlineContainer').removeClass('own');
+                } else {
+                    $(mss).find('.inlineContainer').addClass('own');
+                }
+                $(mss).find('.msgcontent').html(m.message);
+                $('#wrapMessage').append(mss);
+            },
+            gotoBottom: () => {
+                let out = document.getElementById("wrapMessage");
+                out.scrollTop = out.scrollHeight - out.clientHeight;
+            },
+            sendMessage: () => {
+                let userid = $(".userid:checked").val();
+                let textInput = $(".input-text").val();
+                $(".input-text").val('');
+                $.post('/api/message', {"message": textInput, "userid": userid});
+            }
+        }
+
         var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
             cluster: '{{config('broadcasting.connections.pusher.options.cluster')}}',
             encrypted: true
         });
+        // Subscribe to the channel we specified in our Laravel Event
+        var channel = pusher.subscribe('status-liked');
+        // Bind a function to a Event (the full Laravel class)
+        channel.bind('App\\Events\\StatusLiked', (data) => {
+            MessageService.addMessage(data);
+            MessageService.gotoBottom();
+        });
+
     </script>
     <script src="/js/chat.js"></script>
 @endsection

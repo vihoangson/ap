@@ -70,10 +70,8 @@ class MessageController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        Artisan::call('backup:db');
         $ms = Message::find($id);
         $ms->delete();
-
         return true;
     }
 }
