@@ -1,0 +1,99 @@
+.bubbleWrapper {
+    padding: 2px 10px;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-self: flex-end;
+    color: #fff;
+}
+
+.bubbleWrapper:hover .msgcontent {
+    opacity: 0.7;
+    cursor: pointer;
+
+}
+
+.inlineContainer {
+    display: inline-flex;
+}
+
+.inlineContainer.own {
+    flex-direction: row-reverse;
+}
+
+.inlineIcon {
+    width: 20px;
+    object-fit: contain;
+}
+
+.ownBubble {
+    min-width: 60px;
+    max-width: 700px;
+    padding: 2px 18px;
+    margin: 6px 8px;
+    background-color: #d596a0;
+    border-radius: 16px 16px 0 16px;
+    border: 1px solid #ddb0b7;
+
+}
+
+.otherBubble {
+    min-width: 60px;
+    max-width: 700px;
+    padding: 2px 18px;
+    margin: 6px 8px;
+    background-color: #6C8EA4;
+    border-radius: 16px 16px 16px 0;
+    border: 1px solid #54788e;
+
+}
+
+.own {
+    align-self: flex-end;
+    text-align: right;
+
+}
+
+.other {
+    align-self: flex-start;
+    text-align: left;
+
+}
+
+span.own,
+span.other {
+    font-size: 14px;
+    color: grey;
+}
+
+.type1 {
+    color: deeppink;
+    text-align: left;
+}
+
+.type2 {
+    color: darkslateblue;
+    text-align: right;
+}
+
+div#wrapMessage {
+    overflow: auto;
+    height: 338px;
+}
+
+.card-block {
+    padding: 13px;
+}
+
+@media only screen and (max-width: 800px) {
+    .page-caption {
+        padding-top: 34px;
+        padding-bottom: 62px;
+    }
+}
+
+a.btnlogout.btn.btn-secondary {
+    position: fixed;
+    top: 4px;
+    right: 0px;
+}
