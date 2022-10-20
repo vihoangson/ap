@@ -29,7 +29,7 @@
     </div>
 
     <div class="text-center">
-        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+        <button class="btn btn-primary" onclick="MessageService.sendMessage()">Send</button>
         <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
     <div class="text-center"></div>
 

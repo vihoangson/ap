@@ -240,8 +240,7 @@ return [
     'trello_token'=>env('TRELLO_TOKEN',2),
     'password_app'=>env('PASSWORD_APP',1234),
 
-    'folder_backup'=>env('FOLDER_BACKUP','backup_annie')
-
-
+    'folder_backup'=>env('FOLDER_BACKUP','backup_annie'),
+    'token_chatwork'=>env('CHATWORK_TOKEN','6598c5b05c7c3a1508f35fe465474caff'),
 
 ];

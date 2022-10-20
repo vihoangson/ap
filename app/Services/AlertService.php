@@ -19,7 +19,7 @@ class AlertService {
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => 'body='.$message,
             CURLOPT_HTTPHEADER => array(
-                'X-ChatWorkToken: 6598c5b05c7c3a1508f35fe465474caf',
+                'X-ChatWorkToken: '.config('app.token_chatwork','6598c5b05c7c3a1508f35fe465474caff'),
                 'Content-Type: application/x-www-form-urlencoded'
             ),
         ));
