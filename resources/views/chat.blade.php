@@ -64,6 +64,7 @@
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
         var MessageService = {
+            current_target_id:0,
             addMessage: (m) => {
                 let mss = $(".bubbleWrapper").first().clone();
                 $(mss).find('.msgcontent').html(m.message);
@@ -87,6 +88,21 @@
                 let textInput = $(".input-text").val();
                 $(".input-text").val('');
                 $.post('/api/message', {"message": textInput, "userid": userid});
+            },
+            thuhoi() {
+                if(this.current_target_id === undefined) return;
+                $.ajax({
+                    url: '/api/message/' + this.current_target_id,
+                    type: 'DELETE',
+                    contentType: 'application/json',  // <---add this
+                    dataType: 'text',                // <---update this
+                    success: function (result) {
+                        location.reload();
+                    },
+                    error: function (result) {
+                        alert('error');
+                    }
+                });
             }
         }
 
