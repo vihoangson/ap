@@ -124,16 +124,22 @@
     <div class="text-center"><button class="btn btn-primary" onclick="sendMessage()">Send</button> <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
     <div class="text-center"></div>
 
-    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
-        <div class="modal-dialog modal-sm">
+
+    <div class="modal" tabindex="-1" role="dialog" id="mi-modal">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+                    <h5 class="modal-title">Action</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body d-none">
+                    <p>Modal body text goes here.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" id="modal-btn-si">Si</button>
-                    <button type="button" class="btn btn-primary" id="modal-btn-no">No</button>
+                    <button type="button" class="btn btn-danger thuhoi">Thu hồi</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -149,34 +155,28 @@
 
     <script src="//js.pusher.com/3.1/pusher.min.js"></script>
     <script>
-        var idm =0;
+        var current_target = null;
+        var current_target_id = null;
         $(document).on('click', '.bubbleWrapper', (event) => {
-            console.log(event.target);
-            console.log($(event.target).find('.msgcontent'));
-            idm = $(event.target).find('.msgcontent').first().attr('data-id');
-            console.log(idm)
-            $("#mi-modal .modal-footer").append(idm);
+            current_target = event.target;
+            current_target_id = $(current_target).attr('data-id');
             $("#mi-modal").modal('show');
         });
 
-        $(document).on('click', '#modal-btn-si', () => {
-            console.log(idm);
-            return ;
+        $(".thuhoi").click(()=>{
             $.ajax({
-                url: '/api/message/'+idm,
+                url: '/api/message/'+current_target_id,
                 type: 'DELETE',
-                // data: {movie:movie}, //<-----this should be an object.
                 contentType:'application/json',  // <---add this
                 dataType: 'text',                // <---update this
                 success: function(result) {
-                    alert('success');
+                    location.reload();
                 },
                 error: function(result){
                     alert('error');
                 }
             });
-        });
-
+        })
 
 
         $(".card-block").click(() => {
