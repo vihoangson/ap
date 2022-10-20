@@ -37,6 +37,7 @@ class UploadController extends Controller {
         $upload->filename = $filename;
 
         $upload->save();
+        return $upload;
     }
     /**
      * Store a newly created resource in storage.
@@ -53,9 +54,9 @@ class UploadController extends Controller {
             $f = $uploadedFile;
 
 
-            $this->uploadFile($f,$filename);
+            $upload = $this->uploadFile($f,$filename);
 
-            return 0;
+            return $upload;
         }
 
         $uploadedFile->getClientOriginalExtension();
@@ -85,7 +86,7 @@ class UploadController extends Controller {
         $cccm = new File($path_cache);
         $f = $cccm->move(storage_path());
 
-        $this->uploadFile($f,$filename);
+        $upload = $this->uploadFile($f,$filename);
 
         return response()->json($upload);
 
@@ -99,7 +100,7 @@ class UploadController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        return Upload::find($id);
     }
 
     /**

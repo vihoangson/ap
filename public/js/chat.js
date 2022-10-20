@@ -22,7 +22,8 @@ $(".input-text").keyup((e) => {
         MessageService.sendMessage();
     }
 })
-
+MessageService.addEvents($(".bubbleWrapper"));
+$(".bubbleWrapper").trigger('render');
 
 
 

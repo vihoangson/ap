@@ -29,6 +29,8 @@
     </div>
 
     <div class="text-center">
+        <input type="file" class="d-none" id="inputFile">
+        <button class="btn btn-primary" onclick="MessageService.upFile()">UpFile</button>
         <button class="btn btn-primary" onclick="MessageService.sendMessage()">Send</button>
         <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
     <div class="text-center"></div>
@@ -64,11 +66,27 @@
     <script src="/js/pusher.js"></script>
     <script>
         var MessageService = {
-            current_target_id:0,
+            current_target_id: 0,
+            addEvents: (selector) => {
+                selector.on('render', function (e) {
+                    let m = $(this).find('.msgcontent');
+                    let mmm = m.html();
+                    let text = m.text().trim();
+                    let result = (text.match(/\[img id:"(.+)"\]/));
+                    if (result != null) {
+                        console.log(result[1]);
+                        $.get('/api/upload/' + result[1], (data) => {
+                            let url = '/storage/files/' + data.filename + '/' + data.filename;
+                            m.html("<img src='" + url + "'>");
+                        })
+                    }
+                })
+            },
             addMessage: (m) => {
                 let mss = $(".bubbleWrapper").first().clone();
                 $(mss).find('.msgcontent').html(m.message);
                 $(mss).find('.msgcontent').attr('data-id', m.data.id);
+                MessageService.addEvents($(mss));
                 if (m.userid == 2) {
                     $(mss).find('.msgcontent').addClass('otherBubble other');
                     $(mss).find('.msgcontent').removeClass('ownBubble own');
@@ -78,6 +96,7 @@
                 }
                 $(mss).find('.msgcontent').html(m.message);
                 $('#wrapMessage').append(mss);
+                $(mss).trigger('render');
             },
             gotoBottom: () => {
                 let out = document.getElementById("wrapMessage");
@@ -87,10 +106,12 @@
                 let userid = $(".userid:checked").val();
                 let textInput = $(".input-text").val();
                 $(".input-text").val('');
-                $.post('/api/message', {"message": textInput, "userid": userid});
+                $.post('/api/message', {"message": textInput, "userid": userid}, () => {
+                    //$(".bubbleWrapper").trigger('render');
+                });
             },
             thuhoi() {
-                if(this.current_target_id === undefined) return;
+                if (this.current_target_id === undefined) return;
                 $.ajax({
                     url: '/api/message/' + this.current_target_id,
                     type: 'DELETE',
@@ -103,8 +124,41 @@
                         alert('error');
                     }
                 });
+            },
+            upFile() {
+                $("#inputFile").click();
             }
         }
+        $("#inputFile").change(() => {
+            uploadFile(() => {
+                MessageService.sendMessage();
+            });
+        })
+        $('.input-text').on('add-text', function (e, data) {
+            console.log(data);
+            $(this).val('[img id:"' + data.id + '"]');
+        });
+
+        function uploadFile(callback) {
+            var file_data = $('#inputFile').prop('files')[0];
+            var form_data = new FormData();
+            form_data.append('file', file_data);
+            $.ajax({
+                url: '/api/upload', // <-- point to server-side PHP script
+                dataType: 'text',  // <-- what to expect back from the PHP script, if anything
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: (php_script_response) => {
+                    data = JSON.parse(php_script_response);
+                    $('.input-text').trigger('add-text', {id: data.id});
+                    callback();
+                }
+            });
+        }
+
 
         var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
             cluster: '{{config('broadcasting.connections.pusher.options.cluster')}}',
