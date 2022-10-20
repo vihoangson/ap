@@ -15,7 +15,7 @@
                 <div class="bubbleWrapper">
                     <div class="inlineContainer {{$m->userid ==1?'own':''}}">
                         <img class="inlineIcon d-none"
-                             src="https://www.pinclipart.com/picdir/middle/205-2059398_blinkk-en-mac-app-store-ninja-icon-transparent.png">
+                             src="">
                         <div class="msgcontent {{$m->userid ==2?'otherBubble other':'ownBubble own'}}"
                              data-id="{{$m->id}}">
                             {{$m->message}}
@@ -61,7 +61,7 @@
         }
     </script>
     <script src="/js/countdownloadpage.js"></script>
-    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script src="/js/pusher.js"></script>
     <script>
         var MessageService = {
             current_target_id:0,
