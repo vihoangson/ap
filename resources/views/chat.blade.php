@@ -11,7 +11,11 @@
             align-self: flex-end;
             color: #fff;
         }
+        .bubbleWrapper:hover .msgcontent {
+            opacity: 0.7;
+            cursor: pointer;
 
+        }
         .inlineContainer {
             display: inline-flex;
         }
@@ -164,7 +168,8 @@
         $(document).on('click', '.bubbleWrapper', (event) => {
             current_target = event.target;
             current_target_id = $(current_target).attr('data-id');
-            console.log(current_target_id);
+            $(".modal-body").html($(current_target).html());
+            $(".modal-body").removeClass("d-none");
             $("#mi-modal").modal('show');
         });
 
@@ -216,16 +221,11 @@
                 $(mss).find('.msgcontent').addClass('otherBubble other');
                 $(mss).find('.msgcontent').removeClass('ownBubble own');
                 $(mss).find('.inlineContainer').removeClass('own');
-
             } else {
                 $(mss).find('.inlineContainer').addClass('own');
             }
-
             $(mss).find('.msgcontent').html(m.message);
             $('#wrapMessage').append(mss);
-
-
-            // $('#wrapMessage').append($('<div class="ele-message type'+m.userid+'">').html(m.message));
         }
 
         $(".input-text").keyup((e) => {
