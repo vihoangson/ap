@@ -52,10 +52,7 @@ class UploadController extends Controller {
         if(!(substr($uploadedFile->getMimeType(), 0, 5) == 'image')) {
             $filename = time().'_'.$filename;
             $f = $uploadedFile;
-
-
             $upload = $this->uploadFile($f,$filename);
-
             return $upload;
         }
 
@@ -74,7 +71,7 @@ class UploadController extends Controller {
             $image->fit(400, 400)->save(storage_path('framework/cache/'.'medium_'.$filename_hashed));
         }
 
-        $image->fit(150, 150)->save(storage_path('framework/cache/'.'thumbnail_'.$filename_hashed));
+        $image->fit(300, 300)->save(storage_path('framework/cache/'.'thumbnail_'.$filename_hashed));
 
         $img = Image::make($uploadedFile->path());
         // $img->resize(100,100);

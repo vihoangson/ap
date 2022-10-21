@@ -2,9 +2,10 @@ var current_target = null;
 var current_target_id = null;
 $(document).on('click', '.msgcontent', (event) => {
     current_target = event.target;
+    // current_target.closest('.msgcontent')
     current_target_id = $(current_target).attr('data-id');
     MessageService.current_target_id = current_target_id;
-    $(".modal-body").html($(current_target).html());
+    $(".modal-body").html($(current_target).closest('.msgcontent').html());
     $(".modal-body").removeClass("d-none");
     $("#mi-modal").modal('show');
 });
