@@ -8,22 +8,26 @@ $(document).on('click', '.msgcontent', (event) => {
     $(".modal-body").removeClass("d-none");
     $("#mi-modal").modal('show');
 });
+$(document).ready(() => {
+    MessageService.gotoBottom();
+    MessageService.addEvents($(".bubbleWrapper"));
+    $(".bubbleWrapper").trigger('render');
+    $(".input-text").keyup((e) => {
+        i = 1;
+        if (e.which === 13) {
+            MessageService.sendMessage();
+        }
+    })
+    $(".card-block").click(() => {
+        timeoutPage = 0;
+    })
+    $(".thuhoi").click(() => {
+        MessageService.thuhoi();
+    })
+});
 
-$(".thuhoi").click(() => {
-    MessageService.thuhoi();
-})
-$(".card-block").click(() => {
-    timeoutPage = 0;
-})
-MessageService.gotoBottom();
-$(".input-text").keyup((e) => {
-    i = 1;
-    if (e.which === 13) {
-        MessageService.sendMessage();
-    }
-})
-MessageService.addEvents($(".bubbleWrapper"));
-$(".bubbleWrapper").trigger('render');
+
+
 
 
 
