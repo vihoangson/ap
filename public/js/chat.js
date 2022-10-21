@@ -89,14 +89,7 @@ var MessageService = {
     }
 }
 
-$("#inputFile").change(() => {
-    uploadFile(() => {
-        MessageService.sendMessage();
-    });
-})
-$('.input-text').on('add-text', function (e, data) {
-    $(this).val('[img id:"' + data.id + '"]');
-});
+
 
 // Sau 2 giây thì nhảy xuống dưới
 setTimeout(() => {
@@ -141,6 +134,7 @@ channel.bind('App\\Events\\StatusLiked', (data) => {
     MessageService.gotoBottom();
 });
 
+
 var current_target = null;
 var current_target_id = null;
 $(document).on('click', '.msgcontent', (event) => {
@@ -152,9 +146,10 @@ $(document).on('click', '.msgcontent', (event) => {
     $(".modal-body").removeClass("d-none");
     $("#mi-modal").modal('show');
 });
+
 MessageService.addEvents($(".bubbleWrapper"));
 $(".bubbleWrapper").trigger('render');
-MessageService.gotoBottom();
+
 $(".input-text").keyup((e) => {
     i = 1;
     if (e.which === 13) {
@@ -167,7 +162,14 @@ $(".card-block").click(() => {
 $(".thuhoi").click(() => {
     MessageService.thuhoi();
 })
-
+$("#inputFile").change(() => {
+    uploadFile(() => {
+        MessageService.sendMessage();
+    });
+})
+$('.input-text').on('add-text', function (e, data) {
+    $(this).val('[img id:"' + data.id + '"]');
+});
 
 
 
