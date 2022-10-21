@@ -1,3 +1,146 @@
+var AppService = {
+    showLoadingScreen: () => {
+        $('#loadingScreen').show();
+    },
+    hideLoadingScreen: () => {
+        $('#loadingScreen').hide();
+    },
+    setCurrentUserId: () => {
+        let crr_userid = localStorage.getItem('userid');
+        $("#userid" + crr_userid).prop('checked', 'checked');
+        $(".userid").change((e) => {
+            localStorage.setItem('userid', $(e.target).attr('value'));
+        })
+    }
+}
+
+// set radio button
+AppService.setCurrentUserId();
+
+var MessageService = {
+    current_target_id: 0,
+    addEvents: (selector) => {
+        selector.on('render', function (e) {
+            let m = $(this).find('.msgcontent');
+            let mmm = m.html();
+            let text = m.text().trim();
+            let result = (text.match(/\[img id:"(.+)"\]/));
+            if (result != null) {
+                console.log(result[1]);
+                $.get('/api/upload/' + result[1], (data) => {
+                    let url = '/storage/files/' + data.filename + '/' + data.filename;
+                    m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
+                })
+            }
+        })
+    },
+    addMessage: (m) => {
+        let mss = $(".bubbleWrapper").first().clone();
+        $(mss).find('.msgcontent').html(m.message);
+        $(mss).find('.msgcontent').attr('data-id', m.data.id);
+        MessageService.addEvents($(mss));
+        if (m.userid == 2) {
+            $(mss).find('.msgcontent').addClass('otherBubble other');
+            $(mss).find('.msgcontent').removeClass('ownBubble own');
+            $(mss).find('.inlineContainer').removeClass('own');
+        } else {
+            $(mss).find('.inlineContainer').addClass('own');
+        }
+        $(mss).find('.msgcontent').html(m.message);
+        $('#wrapMessage').append(mss);
+        $(mss).trigger('render');
+
+    },
+    gotoBottom: () => {
+        console.log('gotoBottom');
+        let out = document.getElementById("wrapMessage");
+        out.scrollTop = out.scrollHeight - out.clientHeight + 100;
+    },
+    sendMessage: () => {
+        let userid = $(".userid:checked").val();
+        let textInput = $(".input-text").val();
+        $(".input-text").val('');
+        AppService.showLoadingScreen();
+        $.post('/api/message', {"message": textInput, "userid": userid}, () => {
+            AppService.hideLoadingScreen();
+            //$(".bubbleWrapper").trigger('render');
+        });
+    },
+    thuhoi() {
+        if (this.current_target_id === undefined) return;
+        AppService.showLoadingScreen();
+        $.ajax({
+            url: '/api/message/' + this.current_target_id,
+            type: 'DELETE',
+            contentType: 'application/json',  // <---add this
+            dataType: 'text',                // <---update this
+            success: function (result) {
+                AppService.hideLoadingScreen();
+                location.reload();
+            },
+            error: function (result) {
+                AppService.hideLoadingScreen();
+                alert('error');
+            }
+        });
+    },
+    upFile() {
+        $("#inputFile").click();
+    }
+}
+
+$("#inputFile").change(() => {
+    uploadFile(() => {
+        MessageService.sendMessage();
+    });
+})
+$('.input-text').on('add-text', function (e, data) {
+    $(this).val('[img id:"' + data.id + '"]');
+});
+
+// Sau 2 giây thì nhảy xuống dưới
+setTimeout(() => {
+    MessageService.gotoBottom();
+}, 2000);
+
+function uploadFile(callback) {
+    var file_data = $('#inputFile').prop('files')[0];
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    AppService.showLoadingScreen();
+    $.ajax({
+        url: '/api/upload', // <-- point to server-side PHP script
+        dataType: 'text',  // <-- what to expect back from the PHP script, if anything
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data,
+        type: 'post',
+        success: (php_script_response) => {
+            AppService.hideLoadingScreen();
+            data = JSON.parse(php_script_response);
+            $('.input-text').trigger('add-text', {id: data.id});
+            callback();
+        },
+        error: () => {
+            AppService.hideLoadingScreen();
+        }
+    });
+}
+
+
+var pusher = new Pusher(config.pusher_key, {
+    cluster: config.pusher_cluster,
+    encrypted: true
+});
+// Subscribe to the channel we specified in our Laravel Event
+var channel = pusher.subscribe('status-liked');
+// Bind a function to a Event (the full Laravel class)
+channel.bind('App\\Events\\StatusLiked', (data) => {
+    MessageService.addMessage(data);
+    MessageService.gotoBottom();
+});
+
 var current_target = null;
 var current_target_id = null;
 $(document).on('click', '.msgcontent', (event) => {
