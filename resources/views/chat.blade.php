@@ -76,6 +76,7 @@
             </div>
         </div>
     </div>
+    <div id="loadingScreen" style="display:none;"></div>
 @endsection
 @section('FooterContent')
 
@@ -88,6 +89,14 @@
     <script src="/js/countdownloadpage.js"></script>
     <script src="/js/pusher.js"></script>
     <script>
+        var AppService ={
+            showLoadingScreen:()=>{
+                $('#loadingScreen').show();
+            },
+            hideLoadingScreen:()=>{
+                $('#loadingScreen').hide();
+            },
+        }
         var MessageService = {
             current_target_id: 0,
             addEvents: (selector) => {
@@ -166,6 +175,7 @@
             var file_data = $('#inputFile').prop('files')[0];
             var form_data = new FormData();
             form_data.append('file', file_data);
+            AppService.showLoadingScreen();
             $.ajax({
                 url: '/api/upload', // <-- point to server-side PHP script
                 dataType: 'text',  // <-- what to expect back from the PHP script, if anything
@@ -175,9 +185,13 @@
                 data: form_data,
                 type: 'post',
                 success: (php_script_response) => {
+                    AppService.hideLoadingScreen();
                     data = JSON.parse(php_script_response);
                     $('.input-text').trigger('add-text', {id: data.id});
                     callback();
+                },
+                error:()=>{
+                    AppService.hideLoadingScreen();
                 }
             });
         }
