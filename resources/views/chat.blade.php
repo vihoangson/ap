@@ -28,7 +28,7 @@
         <div class="">
             <div class="">
                 <div class="float-right">
-                    <input type="file" class="d-none" id="inputFile">
+                    <input type="file" class="d-none" id="inputFile" accept="image/*">
                     <button class="btn btn-primary" onclick="MessageService.upFile()">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
                             <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path>
