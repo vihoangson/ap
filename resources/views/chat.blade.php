@@ -98,7 +98,7 @@
                         console.log(result[1]);
                         $.get('/api/upload/' + result[1], (data) => {
                             let url = '/storage/files/' + data.filename + '/' + data.filename;
-                            m.html("<div class='text-center'><img src='" + url + "'></div>");
+                            m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
                         })
                     }
                 })
