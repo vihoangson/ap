@@ -89,6 +89,9 @@
     <script src="/js/countdownloadpage.js"></script>
     <script src="/js/pusher.js"></script>
     <script>
+
+
+
         var AppService ={
             showLoadingScreen:()=>{
                 $('#loadingScreen').show();
@@ -96,7 +99,15 @@
             hideLoadingScreen:()=>{
                 $('#loadingScreen').hide();
             },
+            setCurrentUserId:()=>{
+                let crr_userid = localStorage.getItem('userid');
+                $("#userid"+crr_userid).prop('checked','checked');
+                $(".userid").change((e)=>{
+                    localStorage.setItem('userid', $(e.target).attr('value'));
+                })
+            }
         }
+        AppService.setCurrentUserId();
         var MessageService = {
             current_target_id: 0,
             addEvents: (selector) => {
@@ -129,30 +140,37 @@
                 $(mss).find('.msgcontent').html(m.message);
                 $('#wrapMessage').append(mss);
                 $(mss).trigger('render');
+
             },
             gotoBottom: () => {
+                console.log('gotoBottom');
                 let out = document.getElementById("wrapMessage");
-                out.scrollTop = out.scrollHeight - out.clientHeight;
+                out.scrollTop = out.scrollHeight - out.clientHeight+100;
             },
             sendMessage: () => {
                 let userid = $(".userid:checked").val();
                 let textInput = $(".input-text").val();
                 $(".input-text").val('');
+                AppService.showLoadingScreen();
                 $.post('/api/message', {"message": textInput, "userid": userid}, () => {
+                    AppService.hideLoadingScreen();
                     //$(".bubbleWrapper").trigger('render');
                 });
             },
             thuhoi() {
                 if (this.current_target_id === undefined) return;
+                AppService.showLoadingScreen();
                 $.ajax({
                     url: '/api/message/' + this.current_target_id,
                     type: 'DELETE',
                     contentType: 'application/json',  // <---add this
                     dataType: 'text',                // <---update this
                     success: function (result) {
+                        AppService.hideLoadingScreen();
                         location.reload();
                     },
                     error: function (result) {
+                        AppService.hideLoadingScreen();
                         alert('error');
                     }
                 });
@@ -167,7 +185,6 @@
             });
         })
         $('.input-text').on('add-text', function (e, data) {
-            console.log(data);
             $(this).val('[img id:"' + data.id + '"]');
         });
 
