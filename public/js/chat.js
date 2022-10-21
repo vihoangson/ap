@@ -28,7 +28,7 @@ var MessageService = {
             if (result != null) {
                 console.log(result[1]);
                 $.get('/api/upload/' + result[1], (data) => {
-                    let url = '/storage/files/' + data.filename + '/' + data.filename;
+                    let url = data.fullurl;
                     m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
                 })
             }
@@ -49,7 +49,7 @@ var MessageService = {
         $(mss).find('.msgcontent').html(m.message);
         $('#wrapMessage').append(mss);
         $(mss).trigger('render');
-
+        MessageService.gotoBottom();
     },
     gotoBottom: () => {
         console.log('gotoBottom');
@@ -63,7 +63,6 @@ var MessageService = {
         AppService.showLoadingScreen();
         $.post('/api/message', {"message": textInput, "userid": userid}, () => {
             AppService.hideLoadingScreen();
-            //$(".bubbleWrapper").trigger('render');
         });
     },
     thuhoi() {
@@ -131,7 +130,7 @@ var channel = pusher.subscribe('status-liked');
 // Bind a function to a Event (the full Laravel class)
 channel.bind('App\\Events\\StatusLiked', (data) => {
     MessageService.addMessage(data);
-    MessageService.gotoBottom();
+
 });
 
 
