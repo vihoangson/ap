@@ -78,6 +78,8 @@
     </div>
 @endsection
 @section('FooterContent')
+
+
     <script>
         var config = {
             time_count: 10000
