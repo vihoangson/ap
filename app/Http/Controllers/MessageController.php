@@ -33,7 +33,6 @@ class MessageController extends Controller {
         $userid  = (int) $request->input('userid', 1);
         $m       = new Message(['message' => $message, 'userid' => $userid]);
         $m->save();
-        event(new StatusLiked($m));
         event(new SentMessage($m));
         AlertService::chatwork($m->message);
         Cache::put('passchat', 'ok', 600);
