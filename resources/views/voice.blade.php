@@ -79,17 +79,6 @@
 <script src="//js.pusher.com/3.1/pusher.min.js"></script>
 <script>
 
-    var pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {
-        cluster: '{{config('broadcasting.connections.pusher.options.cluster')}}',
-        encrypted: true
-    });
-    // Subscribe to the channel we specified in our Laravel Event
-    var channel = pusher.subscribe('status-liked');
-    // Bind a function to a Event (the full Laravel class)
-    channel.bind('App\\Events\\StatusLiked', (data) => {
-        notifyMe(data.message);
-    });
-
     function notifyMe(message) {
         if (!("Notification" in window)) {
             // Check if the browser supports notifications

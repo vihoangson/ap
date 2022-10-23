@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SentMessage;
 use App\Events\StatusLiked;
 use App\Models\Message;
 use App\Services\AlertService;
@@ -33,6 +34,7 @@ class MessageController extends Controller {
         $m       = new Message(['message' => $message, 'userid' => $userid]);
         $m->save();
         event(new StatusLiked($m));
+        event(new SentMessage($m));
         AlertService::chatwork($m->message);
         Cache::put('passchat', 'ok', 600);
 
