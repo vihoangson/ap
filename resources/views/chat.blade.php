@@ -4,7 +4,6 @@
     <script src="/js/less.js" type="text/javascript"></script>
 @endsection
 @section('BodyContent')
-
     <div class="text-center">
         <h2>Chat</h2>
         <input type="radio" class="userid" name="userid" value="1" checked id="userid1"> <label for="userid1">Em</label>
@@ -48,15 +47,9 @@
         </div>
 
     </div>
-
     <div class="text-center">
-
-
-
-        <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
+    <a class="btnlogout btn btn-secondary" href="/logout">Logout</a></div>
     <div class="text-center"></div>
-
-
     <div class="modal" tabindex="-1" role="dialog" id="mi-modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
