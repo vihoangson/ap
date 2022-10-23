@@ -128,7 +128,7 @@ var pusher = new Pusher(config.pusher_key, {
 // Subscribe to the channel we specified in our Laravel Event
 var channel = pusher.subscribe('sent-message');
 // Bind a function to a Event (the full Laravel class)
-channel.bind('App\\Events\\StatusLiked', (data) => {
+channel.bind('App\\Events\\SentMessage', (data) => {
     MessageService.addMessage(data);
 
 });
