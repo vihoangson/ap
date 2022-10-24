@@ -11,7 +11,7 @@
 
         <div id="wrapMessage">
             @foreach ($ms as $m)
-                <div class="bubbleWrapper">
+                <div class="bubbleWrapper" data-id="{{$m->id}}">
                     <div class="inlineContainer {{$m->userid ==1?'own':''}}">
                         <img class="inlineIcon d-none"
                              src="">

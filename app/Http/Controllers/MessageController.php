@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\DeleteMessage;
 use App\Events\SentMessage;
 use App\Events\StatusLiked;
 use App\Models\Message;
@@ -9,6 +10,7 @@ use App\Services\AlertService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 
 class MessageController extends Controller {
 
@@ -72,6 +74,7 @@ class MessageController extends Controller {
      */
     public function destroy($id) {
         $ms = Message::find($id);
+        event(new DeleteMessage($ms));
         $ms->delete();
         return true;
     }

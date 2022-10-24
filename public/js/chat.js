@@ -34,10 +34,14 @@ var MessageService = {
             }
         })
     },
+    deleteMessage:(id_delete)=>{
+        $(".bubbleWrapper").find('[data-id=' + id_delete + ']').hide();
+    },
     addMessage: (m) => {
         let mss = $(".bubbleWrapper").first().clone();
         $(mss).find('.msgcontent').html(m.message);
         $(mss).find('.msgcontent').attr('data-id', m.data.id);
+        $(mss).attr('data-id', m.data.id);
         MessageService.addEvents($(mss));
         if (m.userid == 2) {
             $(mss).find('.msgcontent').addClass('otherBubble other');
@@ -57,8 +61,12 @@ var MessageService = {
         out.scrollTop = out.scrollHeight - out.clientHeight + 100;
     },
     sendMessage: () => {
-        let userid = $(".userid:checked").val();
-        let textInput = $(".input-text").val();
+        if($(".input-text").val().trim() === ''){
+            alert('Please enter text');
+            return;
+        }
+        let userid = $(".userid:checked").val().trim();
+        let textInput = $(".input-text").val().trim();
         $(".input-text").val('');
         AppService.showLoadingScreen();
         $.post('/api/message', {"message": textInput, "userid": userid}, () => {
@@ -66,6 +74,7 @@ var MessageService = {
         });
     },
     thuhoi() {
+        console.log('thuhoi');
         if (this.current_target_id === undefined) return;
         AppService.showLoadingScreen();
         $.ajax({
@@ -75,11 +84,11 @@ var MessageService = {
             dataType: 'text',                // <---update this
             success: function (result) {
                 AppService.hideLoadingScreen();
-                location.reload();
+                $("#mi-modal").modal('hide');
             },
             error: function (result) {
                 AppService.hideLoadingScreen();
-                alert('error');
+                $("#mi-modal").modal('hide');
             }
         });
     },
@@ -87,9 +96,6 @@ var MessageService = {
         $("#inputFile").click();
     }
 }
-
-
-
 // Sau 2 giây thì nhảy xuống dưới
 setTimeout(() => {
     MessageService.gotoBottom();
@@ -130,7 +136,9 @@ var channel = pusher.subscribe('sent-message');
 // Bind a function to a Event (the full Laravel class)
 channel.bind('App\\Events\\SentMessage', (data) => {
     MessageService.addMessage(data);
-
+});
+channel.bind('App\\Events\\DeleteMessage', (data) => {
+    MessageService.deleteMessage(data.data.id);
 });
 
 
@@ -138,7 +146,6 @@ var current_target = null;
 var current_target_id = null;
 $(document).on('click', '.msgcontent', (event) => {
     current_target = $(event.target).closest('.msgcontent');
-    // current_target.closest('.msgcontent')
     current_target_id = $(current_target).attr('data-id');
     MessageService.current_target_id = current_target_id;
     $(".modal-body").html($(current_target).html());
