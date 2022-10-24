@@ -11,6 +11,24 @@ var AppService = {
         $(".userid").change((e) => {
             localStorage.setItem('userid', $(e.target).attr('value'));
         })
+    },
+    pushNotification:(message)=>{
+        if (!("Notification" in window)) {
+            // Check if the browser supports notifications
+            alert("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+            // Check whether notification permissions have already been granted;
+            // if so, create a notification
+            const notification = new Notification(message);
+            // …
+        } else if (Notification.permission !== "denied") {
+            // We need to ask the user for permission
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    const notification = new Notification(message);
+                }
+            });
+        }
     }
 }
 
@@ -135,6 +153,7 @@ var pusher = new Pusher(config.pusher_key, {
 var channel = pusher.subscribe('sent-message');
 // Bind a function to a Event (the full Laravel class)
 channel.bind('App\\Events\\SentMessage', (data) => {
+    AppService.pushNotification('push');
     MessageService.addMessage(data);
 });
 channel.bind('App\\Events\\DeleteMessage', (data) => {
