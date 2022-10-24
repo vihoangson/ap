@@ -48,6 +48,9 @@ var MessageService = {
                 $.get('/api/upload/' + result[1], (data) => {
                     let url = data.fullurl;
                     m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
+                    setTimeout(()=>{
+                        MessageService.gotoBottom();
+                    },400);
                 })
             }
         })
