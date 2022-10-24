@@ -1,4 +1,61 @@
+var VoiceService = {
+    statusRecord: false,
+    chunks: [],
+    mediaRecorder: null,
+    start: () => {
+        navigator.mediaDevices.getUserMedia({
+            audio: true,
+        })
+            .then((stream) => {
+                VoiceService.mediaRecorder = new MediaRecorder(stream);
+                VoiceService.mediaRecorder.start();
+                VoiceService.mediaRecorder.ondataavailable = (e) => {
+                    VoiceService.chunks.push(e.data);
+                };
+                VoiceService.mediaRecorder.onstop = () => {
+                    let stream = VoiceService.mediaRecorder.stream;
+                    let tracks = stream.getTracks();
+
+                    tracks.forEach((track) => {
+                        track.stop();
+                    });
+                    document.getElementById("wavSource").style.display = 'block';
+                    let audioBlob = new Blob(VoiceService.chunks, {type: 'audio/mpeg3'});
+                    let blobURL = window.URL.createObjectURL(audioBlob);
+                    document.getElementById("wavSource").src = blobURL;
+                    document.getElementById("wavSource").play();
+                    //reset to default
+                    VoiceService.mediaRecorder = null;
+                };
+            })
+            .catch((err) => {
+                alert(`The following error occurred: ${err}`);
+            });
+    },
+    uploadAudio: function () {
+        let audioBlob = new Blob(VoiceService.chunks, {type: 'audio/wav'});
+        VoiceService.sendData(audioBlob);
+        document.getElementById("wavSource").style.display = 'none';
+        VoiceService.chunks = [];
+    },
+    sendData: function (data) {
+        var fd = new FormData();
+        fd.append('filename', 'test.mp3');
+        fd.append('file', data);
+        $.ajax({
+            type: 'POST',
+            url: '/api/upload',
+            data: fd,
+            processData: false,
+            contentType: false
+        }).done(function (data) {
+            MessageService.addMessage(data);
+            $('#mi-record-voice').modal('hide');
+        });
+    }
+}
 var AppService = {
+
     showLoadingScreen: () => {
         $('#loadingScreen').show();
     },
@@ -11,6 +68,22 @@ var AppService = {
         $(".userid").change((e) => {
             localStorage.setItem('userid', $(e.target).attr('value'));
         })
+    },
+    startRecord: () => {
+        if (VoiceService.statusRecord === false) {
+            VoiceService.chunks = [];
+            VoiceService.start();
+            $("#button-record").css({"background": 'red'});
+            VoiceService.statusRecord = true;
+            $(".statusR").text('true');
+            $("#button-sent-voice").hide();
+        } else {
+            VoiceService.statusRecord = false;
+            $(".statusR").text('false');
+            VoiceService.mediaRecorder.stop();
+            $("#button-sent-voice").show();
+            $("#button-record").css({"background": 'none'});
+        }
     },
     pushNotification: (message) => {
         if (!("Notification" in window)) {
@@ -48,20 +121,23 @@ var MessageService = {
                 $.get('/api/upload/' + result[1], (data) => {
                     let url = data.fullurl;
                     m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         MessageService.gotoBottom();
-                    },400);
+                    }, 400);
                 })
             }
         })
     },
+    openRecord: () => {
+        $('#mi-record-voice').modal('show');
+    },
     addMessage: (m) => {
         let mss = $(".bubbleWrapper").first().clone();
-        $(mss).find('.msgcontent').html(m.message);
+        $(mss).find('.msgcontent').html(m.data.message);
         $(mss).find('.msgcontent').attr('data-id', m.data.id);
         $(mss).attr('data-id', m.data.id);
         MessageService.addEvents($(mss));
-        if (m.userid == 2) {
+        if (m.data.userid == 2) {
             $(mss).find('.msgcontent').addClass('otherBubble other');
             $(mss).find('.msgcontent').removeClass('ownBubble own');
             $(mss).find('.inlineContainer').removeClass('own');
@@ -143,8 +219,6 @@ function uploadFile(callback) {
         }
     });
 }
-
-
 
 
 $("#wrapMessage").on('addMessage', (e, m) => {
