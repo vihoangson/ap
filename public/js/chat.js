@@ -93,7 +93,7 @@ var MessageService = {
 // Sau 2 giây thì nhảy xuống dưới
 setTimeout(() => {
     MessageService.gotoBottom();
-}, 2000);
+}, 500);
 
 function uploadFile(callback) {
     var file_data = $('#inputFile').prop('files')[0];
