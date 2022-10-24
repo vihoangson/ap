@@ -12,7 +12,7 @@ var AppService = {
             localStorage.setItem('userid', $(e.target).attr('value'));
         })
     },
-    pushNotification:(message)=>{
+    pushNotification: (message) => {
         if (!("Notification" in window)) {
             // Check if the browser supports notifications
             alert("This browser does not support desktop notification");
@@ -52,9 +52,6 @@ var MessageService = {
             }
         })
     },
-    deleteMessage:(id_delete)=>{
-        $(".bubbleWrapper").find('[data-id=' + id_delete + ']').hide();
-    },
     addMessage: (m) => {
         let mss = $(".bubbleWrapper").first().clone();
         $(mss).find('.msgcontent').html(m.message);
@@ -79,7 +76,7 @@ var MessageService = {
         out.scrollTop = out.scrollHeight - out.clientHeight + 100;
     },
     sendMessage: () => {
-        if($(".input-text").val().trim() === ''){
+        if ($(".input-text").val().trim() === '') {
             alert('Please enter text');
             return;
         }
@@ -145,6 +142,31 @@ function uploadFile(callback) {
 }
 
 
+
+
+$("#wrapMessage").on('addMessage', (e, m) => {
+    let mss = $(".bubbleWrapper").first().clone();
+    $(mss).find('.msgcontent').html(m.message);
+    $(mss).find('.msgcontent').attr('data-id', m.data.id);
+    $(mss).attr('data-id', m.data.id);
+    MessageService.addEvents($(mss));
+    if (m.userid == 2) {
+        $(mss).find('.msgcontent').addClass('otherBubble other');
+        $(mss).find('.msgcontent').removeClass('ownBubble own');
+        $(mss).find('.inlineContainer').removeClass('own');
+    } else {
+        $(mss).find('.inlineContainer').addClass('own');
+    }
+    $(mss).find('.msgcontent').html(m.message);
+    $('#wrapMessage').append(mss);
+    $(mss).trigger('render');
+    MessageService.gotoBottom();
+});
+
+$("#wrapMessage").on('deleteMessage', (e, id_delete) => {
+    $(".bubbleWrapper").find('[data-id=' + id_delete + ']').hide();
+});
+
 var pusher = new Pusher(config.pusher_key, {
     cluster: config.pusher_cluster,
     encrypted: true
@@ -153,11 +175,11 @@ var pusher = new Pusher(config.pusher_key, {
 var channel = pusher.subscribe('sent-message');
 // Bind a function to a Event (the full Laravel class)
 channel.bind('App\\Events\\SentMessage', (data) => {
-    AppService.pushNotification('push');
-    MessageService.addMessage(data);
+    AppService.pushNotification(data.data.message);
+    $("#wrapMessage").trigger('addMessage', data);
 });
 channel.bind('App\\Events\\DeleteMessage', (data) => {
-    MessageService.deleteMessage(data.data.id);
+    $("#wrapMessage").trigger('deleteMessage', data.data.id);
 });
 
 
