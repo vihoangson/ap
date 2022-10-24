@@ -223,18 +223,18 @@ function uploadFile(callback) {
 
 $("#wrapMessage").on('addMessage', (e, m) => {
     let mss = $(".bubbleWrapper").first().clone();
-    $(mss).find('.msgcontent').html(m.message);
+    $(mss).find('.msgcontent').html( m.data.message);
     $(mss).find('.msgcontent').attr('data-id', m.data.id);
     $(mss).attr('data-id', m.data.id);
     MessageService.addEvents($(mss));
-    if (m.userid == 2) {
+    if (m.data.userid == 2) {
         $(mss).find('.msgcontent').addClass('otherBubble other');
         $(mss).find('.msgcontent').removeClass('ownBubble own');
         $(mss).find('.inlineContainer').removeClass('own');
     } else {
         $(mss).find('.inlineContainer').addClass('own');
     }
-    $(mss).find('.msgcontent').html(m.message);
+    $(mss).find('.msgcontent').html(m.data.message);
     $('#wrapMessage').append(mss);
     $(mss).trigger('render');
     MessageService.gotoBottom();
