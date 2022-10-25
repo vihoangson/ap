@@ -8,7 +8,8 @@
         s.onload = function (sdk) {
             sdk.startInstall({
                 appId: "{{config('app.notificationAppId')}}",
-                loadSettings: true
+                loadSettings: true,
+                disableConsoleDebug: true
             })
         }
         document.head.append(s)
