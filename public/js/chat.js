@@ -104,16 +104,11 @@ var AppService = {
         }
     }
 }
-
-// set radio button
-AppService.setCurrentUserId();
-
 var MessageService = {
     current_target_id: 0,
     addEvents: (selector) => {
         selector.on('render', function (e) {
             let m = $(this).find('.msgcontent');
-            let mmm = m.html();
             let text = m.text().trim();
             let result = (text.match(/\[img id:"(.+)"\]/));
             if (result != null) {
@@ -190,6 +185,10 @@ var MessageService = {
         $("#inputFile").click();
     }
 }
+
+// set radio button
+AppService.setCurrentUserId();
+
 // Sau 2 giây thì nhảy xuống dưới
 setTimeout(() => {
     MessageService.gotoBottom();
@@ -211,7 +210,7 @@ function uploadFile(callback) {
         success: (php_script_response) => {
             AppService.hideLoadingScreen();
             data = JSON.parse(php_script_response);
-            $('.input-text').trigger('add-text', {id: data.id});
+            $('.input-text').trigger('addTagImage', {id: data.id});
             callback();
         },
         error: () => {
@@ -219,7 +218,6 @@ function uploadFile(callback) {
         }
     });
 }
-
 
 $("#wrapMessage").on('addMessage', (e, m) => {
     let mss = $(".bubbleWrapper").first().clone();
@@ -291,7 +289,7 @@ $("#inputFile").change(() => {
         MessageService.sendMessage();
     });
 })
-$('.input-text').on('add-text', function (e, data) {
+$('.input-text').on('addTagImage', function (e, data) {
     $(this).val('[img id:"' + data.id + '"]');
 });
 
