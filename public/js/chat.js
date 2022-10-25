@@ -34,11 +34,11 @@ var VoiceService = {
     },
     uploadAudio: function () {
         let audioBlob = new Blob(VoiceService.chunks, {type: 'audio/wav'});
-        VoiceService.sendData(audioBlob);
+        VoiceService.uploadVoice(audioBlob);
         document.getElementById("wavSource").style.display = 'none';
         VoiceService.chunks = [];
     },
-    sendData: function (data) {
+    uploadVoice: function (data) {
         var fd = new FormData();
         fd.append('filename', 'test.mp3');
         fd.append('file', data);
@@ -49,7 +49,8 @@ var VoiceService = {
             processData: false,
             contentType: false
         }).done(function (data) {
-            MessageService.addMessage(data);
+            $('.input-text').trigger('addTagAudio', data)
+            MessageService.sendMessage();
             $('#mi-record-voice').modal('hide');
         });
     }
@@ -116,6 +117,19 @@ var MessageService = {
                 $.get('/api/upload/' + result[1], (data) => {
                     let url = data.fullurl;
                     m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
+                    setTimeout(() => {
+                        MessageService.gotoBottom();
+                    }, 400);
+                })
+            }
+
+            result = (text.match(/\[audio id:"(.+)"\]/));
+            if (result != null) {
+                console.log(result[1]);
+                $.get('/api/upload/' + result[1], (data) => {
+                    let url = data.fullurl;
+                    // m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
+                    m.html("<audio style='width:200px'  type='audio/wav' controls src='" + url + "' ></audio>");
                     setTimeout(() => {
                         MessageService.gotoBottom();
                     }, 400);
@@ -221,7 +235,7 @@ function uploadFile(callback) {
 
 $("#wrapMessage").on('addMessage', (e, m) => {
     let mss = $(".bubbleWrapper").first().clone();
-    $(mss).find('.msgcontent').html( m.data.message);
+    $(mss).find('.msgcontent').html(m.data.message);
     $(mss).find('.msgcontent').attr('data-id', m.data.id);
     $(mss).attr('data-id', m.data.id);
     MessageService.addEvents($(mss));
@@ -292,7 +306,9 @@ $("#inputFile").change(() => {
 $('.input-text').on('addTagImage', function (e, data) {
     $(this).val('[img id:"' + data.id + '"]');
 });
-
+$('.input-text').on('addTagAudio', function (e, data) {
+    $(this).val('[audio id:"' + data.id + '"]');
+});
 
 
 
