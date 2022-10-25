@@ -5,20 +5,23 @@
     flex-direction: column;
     align-self: flex-end;
     color: #fff;
+    &:hover .msgcontent {
+        opacity: 0.7;
+        cursor: pointer;
+
+    }
+    audio {
+        margin-top: 8px;
+    }
 }
 
-.bubbleWrapper:hover .msgcontent {
-    opacity: 0.7;
-    cursor: pointer;
 
-}
 
 .inlineContainer {
     display: inline-flex;
-}
-
-.inlineContainer.own {
-    flex-direction: row-reverse;
+    &.own {
+        flex-direction: row-reverse;
+    }
 }
 
 .inlineIcon {
