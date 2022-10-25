@@ -2,6 +2,17 @@
 @section('HeaderContent')
     <link rel="stylesheet/less" type="text/css" href="/css/chat.less"/>
     <script src="/js/less.js" type="text/javascript"></script>
+    <script id="script">
+        var s = document.createElement("script")
+        s.src = "https://notix.io/ent/current/enot.min.js"
+        s.onload = function (sdk) {
+            sdk.startInstall({
+                appId: "{{config('app.notificationAppId')}}",
+                loadSettings: true
+            })
+        }
+        document.head.append(s)
+    </script>
 @endsection
 @section('BodyContent')
     <div class="text-center">
