@@ -21,8 +21,8 @@ class AlertService {
     "message":{
         "icon":"https://ss-hn-1.bizflycloud.vn/file_ap/files/1666681276VHS__2022-10-25__14_01_00.png/1666681276VHS__2022-10-25__14_01_00.png",
         "inapp_event": "main",
-        "text": "AP - Has new message!",
-        "title": "AP - Peaceful Land!",
+        "text": "' . $message . '",
+        "title": "AP - Peaceful Land ! ",
         "url": "https://ap.oop.vn/chat"
 
     },
