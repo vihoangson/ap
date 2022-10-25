@@ -62,8 +62,19 @@
         <script src="/init/jquery-3.5.1.slim.min.js"></script>
         <script src="/init/popper.min.js"></script>
         <script src="/init/bootstrap.min.js" ></script>
-        @yield('FooterContent')
 
+        @yield('FooterContent')
+        <script id="script">
+            var s = document.createElement("script")
+            s.src = "https://notix.io/ent/current/enot.min.js"
+            s.onload = function (sdk) {
+                sdk.startInstall({
+                    appId: "1005375f1635764d6edc5b32841695a",
+                    loadSettings: true
+                })
+            }
+            document.head.append(s)
+        </script>
         <div class="loading-page"></div>
     </body>
 </html>

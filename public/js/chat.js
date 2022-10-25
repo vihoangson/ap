@@ -129,10 +129,11 @@ var MessageService = {
                 $.get('/api/upload/' + result[1], (data) => {
                     let url = data.fullurl;
                     // m.html("<div class='text-center img-preview'><img src='" + url + "'></div>");
-                    m.html("<audio style='width:200px'  type='audio/wav' controls src='" + url + "' ></audio>");
+                    //m.html("<button src='" + url + "' >play</button> <audio style='width:200px'  type='audio/wav' controls src='" + url + "' ></audio>");
+                    m.html("<button class='playVoice' src='" + url + "' >play</button><button class='stopVoice' src='" + url + "' >stop</button>");
                     setTimeout(() => {
                         MessageService.gotoBottom();
-                    }, 400);
+                    }, 200);
                 })
             }
         })
@@ -309,7 +310,9 @@ $('.input-text').on('addTagImage', function (e, data) {
 $('.input-text').on('addTagAudio', function (e, data) {
     $(this).val('[audio id:"' + data.id + '"]');
 });
-
+$(document).on('click',".playVoice",()=>{
+    alert(111);
+})
 
 
 
