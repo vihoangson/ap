@@ -278,8 +278,8 @@ $(document).on('click', '.msgcontent', (event) => {
     current_target = $(event.target).closest('.msgcontent');
     current_target_id = $(current_target).attr('data-id');
     MessageService.current_target_id = current_target_id;
-    $(".modal-body").html($(current_target).html());
-    $(".modal-body").removeClass("d-none");
+    $("#mi-modal .modal-body").html($(current_target).html());
+    $("#mi-modal .modal-body").removeClass("d-none");
     $("#mi-modal").modal('show');
 });
 
