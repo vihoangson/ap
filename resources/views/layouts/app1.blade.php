@@ -69,7 +69,7 @@
             s.src = "https://notix.io/ent/current/enot.min.js"
             s.onload = function (sdk) {
                 sdk.startInstall({
-                    appId: "1005375f1635764d6edc5b32841695a",
+                    appId: "{{config('app.notificationAppId')}}",
                     loadSettings: true
                 })
             }

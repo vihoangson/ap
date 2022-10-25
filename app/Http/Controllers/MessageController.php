@@ -37,6 +37,8 @@ class MessageController extends Controller {
         $m->save();
         event(new SentMessage($m));
         AlertService::chatwork($m->message);
+        AlertService::notification($m->message);
+
         Cache::put('passchat', 'ok', 600);
 
         return $message;
@@ -78,4 +80,5 @@ class MessageController extends Controller {
         $ms->delete();
         return true;
     }
+
 }

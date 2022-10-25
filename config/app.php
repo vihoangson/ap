@@ -243,4 +243,5 @@ return [
     'folder_backup'=>env('FOLDER_BACKUP','backup_annie'),
     'token_chatwork'=>env('CHATWORK_TOKEN','6598c5b05c7c3a1508f35fe465474caff'),
     'storage_disk_chat' => 's3',
+    'notificationAppId'=>env('NOTIFICATION_APP_ID','1005375f1635764d6edc5b32841695a'),
 ];
