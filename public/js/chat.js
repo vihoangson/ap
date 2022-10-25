@@ -87,6 +87,7 @@ var AppService = {
         }
     },
     pushNotification: (message) => {
+        return false;
         if (!("Notification" in window)) {
             // Check if the browser supports notifications
             alert("This browser does not support desktop notification");
