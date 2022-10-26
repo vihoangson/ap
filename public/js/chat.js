@@ -151,7 +151,6 @@ var MessageService = {
                 mmm[k].id = k;
                 mmm[k].selector = $(".div" + k);
                 mmm[k].runAnimations();
-                mmm[k].addEvent();
                 setTimeout(() => {
                     MessageService.gotoBottom();
                 }, 200);
