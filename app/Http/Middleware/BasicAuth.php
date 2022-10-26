@@ -21,7 +21,7 @@ class BasicAuth
     {
 
         if(!Session::has('loginbasic')){
-            return redirect('/login');
+            return redirect('/logins');
         }else{
 
         }

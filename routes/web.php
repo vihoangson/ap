@@ -2,6 +2,7 @@
 
 use App\Models\Message;
 use App\Services\RouteService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ Route::get('/chat', function () {
     return view('chat', ['ms' => $ms]);
 })->middleware(\App\Http\Middleware\BasicAuth::class);
 
-Route::get('/login', function () {
+Route::get('/logins', function () {
     return view ('login');
 });
 Route::get('/logout', function () {
@@ -68,12 +69,12 @@ Route::get('/logout', function () {
     return redirect('/login');
 
 });
-Route::post('/login', function (Request $request) {
+Route::post('/logins', function (Request $request) {
     if($request->input('password') === config('app.password_app')){
         Session::put('loginbasic','ok');
         return redirect('/chat');
     }else{
-        return redirect('/login');
+        return redirect('/logins');
     }
 });
 Route::get('/voice', function (Request $request) {
