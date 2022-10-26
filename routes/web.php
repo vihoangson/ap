@@ -82,5 +82,7 @@ Route::get('/voice', function (Request $request) {
 });
 
 Auth::routes();
-
+// Route::get('/register', function(){});
+// Route::post('/register', function(){});
+Route::get('password/reset', function(){});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
