@@ -144,8 +144,6 @@ var MessageService = {
 
             result = (text.match(/\[emoji id:"(.+)"\]/));
             if (result != null) {
-                console.warn(listEmoji[result[1]]);
-                console.warn($(this));
                 let id_message = $(this).attr('data-id');
                 k = 'mmmdd-'+id_message;
                 mmm[k] = new Emoji(listEmoji[result[1]]);

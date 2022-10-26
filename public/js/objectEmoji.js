@@ -7,7 +7,6 @@ class Emoji {
         this.backgroundAnimate = backgroundAnimate;
         this.selector = null;
     }
-
     runAnimations() {
         this.m = setInterval(() => {
             this.step = this.step - 1;
@@ -42,7 +41,6 @@ class Emoji {
 }
 
 const listEmoji = [
-    "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=41317&size=130&checksum=fea0a6f586a345f11dad32742eced7cc",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=41317&size=130&checksum=fea0a6f586a345f11dad32742eced7cc",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=41240&size=130&checksum=81e11e8e6b8bd888288b065022230cdd",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=45825&size=130&checksum=6c1c4d648be6159386220d3d6a11aa13",
