@@ -42,7 +42,7 @@ class Emoji {
 
 const listEmoji = [
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=41317&size=130&checksum=fea0a6f586a345f11dad32742eced7cc",
-    "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=41240&size=130&checksum=81e11e8e6b8bd888288b065022230cdd",
+    "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=45839&size=130&checksum=c99cc7fa3139336ffae6ca6c8b8c9cfd",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=45825&size=130&checksum=6c1c4d648be6159386220d3d6a11aa13",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=45826&size=130&checksum=c92ca88ec8b5ceca8dd33511fd36b526",
     "https://zalo-api.zadn.vn/api/emoticon/sprite?eid=45827&size=130&checksum=8ac1531e000c36f29bddaee04d95decb",
