@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Upload;
+use App\Services\FileService;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 
@@ -57,46 +58,12 @@ class UploadController extends Controller {
             $f        = $uploadedFile;
             $upload   = $this->uploadFile($f, $filename);
 
-            return $upload;
+            return response()->json($upload);
         }
 
-        $uploadedFile->getClientOriginalExtension();
-        $image           = Image::make($uploadedFile->path())
-                                ->orientate();
-        $filename_hashed = time() . '_' . md5($uploadedFile->getClientOriginalName()) . '.' . $uploadedFile->getClientOriginalExtension();
-        $image->save(storage_path('framework/cache/' . 'origin_' . $filename_hashed));
-        if ($image->width() > 1000 && $image->height() > 1000) {
-            $image->fit(1000, 1000)
-                  ->save(storage_path('framework/cache/' . 'huge_' . $filename_hashed));
-        }
-        if ($image->width() > 600 && $image->height() > 600) {
-            $image->fit(600, 600)
-                  ->save(storage_path('framework/cache/' . 'large_' . $filename_hashed));
-        }
-        if ($image->width() > 400 && $image->height() > 400) {
-            $image->fit(400, 400)
-                  ->save(storage_path('framework/cache/' . 'medium_' . $filename_hashed));
-        }
-
-        $image->fit(300, 300)
-              ->save(storage_path('framework/cache/' . 'thumbnail_' . $filename_hashed));
-
-        $img = Image::make($uploadedFile->path());
-        // $img->resize(100,100);
-        if ($image->width() > 650 && $image->height() > 650) {
-            $img->orientate()
-                ->fit(650, 650);
-        }
-
-        $filename   = time() . $uploadedFile->getClientOriginalName();
-        $path_cache = storage_path('framework/cache/' . $filename);
-        $img->save($path_cache);
-        /** @var File $cccm */
-        $cccm = new File($path_cache);
-        $f    = $cccm->move(storage_path());
-
-        $upload = $this->uploadFile($f, $filename);
-
+        $filename = time() . '_' . $filename;
+        $f        = $uploadedFile;
+        $upload   = $this->uploadFile($f, $filename);
         return response()->json($upload);
 
     }
