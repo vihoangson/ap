@@ -2,7 +2,10 @@
 @section('HeaderContent')
     <link rel="stylesheet/less" type="text/css" href="/css/chat.less"/>
     <script src="/js/less.js" type="text/javascript"></script>
+
     <script id="script">
+
+
         var s = document.createElement("script")
         s.src = "https://notix.io/ent/current/enot.min.js"
         s.onload = function (sdk) {
@@ -17,6 +20,7 @@
 @endsection
 @section('BodyContent')
     <div class="text-center">
+
         <h2>Chat</h2>
         <input type="radio" class="userid" name="userid" value="1" checked id="userid1"> <label for="userid1">Em</label>
         <input type="radio" class="userid" name="userid" value="2" id="userid2"> <label for="userid2">Anh</label>
@@ -118,9 +122,18 @@
         </div>
     </div>
     <div id="loadingScreen" style="display:none;"></div>
+    <div id="emoji">
+        <div class="clearfix"></div>
+    </div>
 @endsection
 @section('FooterContent')
+    <script src="/js/objectEmoji.js" type="text/javascript"></script>
     <script>
+
+    </script>
+    <script>
+
+
         var config = {
             time_count: 10000,
             pusher_key:'{{config('broadcasting.connections.pusher.key')}}',
