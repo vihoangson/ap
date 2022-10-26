@@ -5,20 +5,22 @@
     flex-direction: column;
     align-self: flex-end;
     color: #fff;
+
     &:hover .msgcontent {
         opacity: 0.7;
         cursor: pointer;
 
     }
+
     audio {
         margin-top: 8px;
     }
 }
 
 
-
 .inlineContainer {
     display: inline-flex;
+
     &.own {
         flex-direction: row-reverse;
     }
@@ -106,37 +108,45 @@ a.btnlogout.btn.btn-secondary {
     display: flex;
     padding-right: 6px;
 }
-.img-preview{
-    img{
+
+.img-preview {
+    img {
         max-width: 200px;
     }
 }
-.modal-body .img-preview{
-    img{
+
+.modal-body .img-preview {
+    img {
         max-width: 100%;
 
     }
 }
-#loadingScreen{
+
+#loadingScreen {
     position: fixed;
-    top:0;
+    top: 0;
     left: 0;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
     background: #000000a6;
     z-index: 22;
 }
-
-#emoji>div{
-    float:left;
-}
-div#emoji {
-    position: fixed;
+.wrap-emoji{
+    .emoji-header{
+    }
+    width:100%;
+    height:100%;
     display: block;
-    width: 500px;
-    top: 72px;
-    height: 500px;
+    z-index: 9;
     overflow: scroll;
     background: white;
-    left: 10px;
+
+    div#emoji {
+
+        > div {
+
+            float: left;
+        }
+    }
 }
+

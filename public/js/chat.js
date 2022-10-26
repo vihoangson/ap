@@ -108,6 +108,9 @@ var AppService = {
 }
 var MessageService = {
     current_target_id: 0,
+    openEmoji: () => {
+        $("#mi-emoji").modal('show');
+    },
     addEvents: (selector) => {
         selector.on('render', function (e) {
             let m = $(this).find('.msgcontent');
@@ -136,6 +139,25 @@ var MessageService = {
                         MessageService.gotoBottom();
                     }, 200);
                 })
+            }
+
+
+            result = (text.match(/\[emoji id:"(.+)"\]/));
+            if (result != null) {
+                console.warn(listEmoji[result[1]]);
+                console.warn($(this));
+                let id_message = $(this).attr('data-id');
+                k = 'mmmdd-'+id_message;
+                mmm[k] = new Emoji(listEmoji[result[1]]);
+                $(this).find('.msgcontent').html($("<div class='div"+k+"'>"));
+                mmm[k].id = k;
+                mmm[k].selector = $(".div" + k);
+                mmm[k].runAnimations();
+                mmm[k].addEvent();
+                setTimeout(() => {
+                    MessageService.gotoBottom();
+                }, 200);
+
             }
         })
     },
@@ -311,11 +333,13 @@ $('.input-text').on('addTagImage', function (e, data) {
 $('.input-text').on('addTagAudio', function (e, data) {
     $(this).val('[audio id:"' + data.id + '"]');
 });
-$(document).on('click',".playVoice",()=>{
-    alert(111);
+$('.input-text').on('addTagEmoji', function (e, data) {
+    $(this).val('[emoji id:"' + data.id + '"]');
+});
+$(document).on('click', ".playVoice", () => {
 })
-
-
-
-
-
+eventBus.on('addEmoji', (e, d) => {
+    $('.input-text').trigger('addTagEmoji', {id: d.id});
+    MessageService.sendMessage();
+    $('#mi-emoji').modal('hide');
+});
