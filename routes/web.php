@@ -51,7 +51,9 @@ Route::post('/password', function (Request $request) {
     }
     return redirect('/password');
 });
-
+Route::get('/lock',function(){
+    return view('lock');
+});
 Route::get('/content', function () {
     return RouteService::content();
 });

@@ -26,6 +26,8 @@ class FileService {
                 ->fit(650, 650);
         }
 
+        $img->orientate()
+            ->fit(650, 650);
         $filename   = time() . $uploadedFile->getClientOriginalName();
         $path_cache = storage_path('framework/cache/' . $filename);
         $img->save($path_cache);

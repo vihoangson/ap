@@ -61,10 +61,24 @@ class UploadController extends Controller {
             return response()->json($upload);
         }
 
-        $filename = time() . '_' . $filename;
-        $f        = $uploadedFile;
-        $upload   = $this->uploadFile($f, $filename);
+        if (true) {
+            $img = Image::make($uploadedFile->path());
+            $img->orientate()
+                ->fit(650, 650);
+            $filename   = time() . $uploadedFile->getClientOriginalName();
+            $path_cache = storage_path('framework/cache/' . $filename);
+            $img->save($path_cache);
+            /** @var File $cccm */
+            $cccm = new File($path_cache);
+            $f    = $cccm->move(storage_path());
+        } else {
+            $filename = time() . '_' . $filename;
+            $f        = $uploadedFile;
+        }
+        $upload = $this->uploadFile($f, $filename);
+
         return response()->json($upload);
+
 
     }
 
@@ -76,13 +90,12 @@ class UploadController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        $upload          = Upload::find($id);
-        if($upload->disk === 's3'){
-            $upload->fullurl = config('filesystems.disks.s3.url_public').$upload->path;
-        }else{
-            $upload->fullurl = '/storage/'.$upload->path;
+        $upload = Upload::find($id);
+        if ($upload->disk === 's3') {
+            $upload->fullurl = config('filesystems.disks.s3.url_public') . $upload->path;
+        } else {
+            $upload->fullurl = '/storage/' . $upload->path;
         }
-
 
         return $upload;
     }
