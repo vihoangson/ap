@@ -61,10 +61,16 @@ class UploadController extends Controller {
             return response()->json($upload);
         }
 
-        if (!(substr($uploadedFile->getMimeType(), 0, 5) == 'image/gif')) {
+        if (!(substr($uploadedFile->getMimeType(), 0, 9) == 'image/gif')) {
             $img = Image::make($uploadedFile->path());
-            $img->orientate()
-                ->fit(650, 650);
+            if($img->getHeight() > 800 || $img->getWidth() >800){
+                $img->orientate()
+                    ->resize(800, 800, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+            }
+
             $filename   = time() . $uploadedFile->getClientOriginalName();
             $path_cache = storage_path('framework/cache/' . $filename);
             $img->save($path_cache);
