@@ -571,7 +571,6 @@
         </div>
     </div>
 </div>
-<div class="mhn-ui-info">Draw 'M' shape begin from left bottom to unlock :)</div>
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -586,6 +585,10 @@
         mhnUI.setup();
     });
     mhnUI = {
+        successProgress:function(mmm){
+            alert(mmm);
+            window.location.href = '/';
+        },
         pattern: "",
         setup: function() {
             this.lock(), this.filter(), this.colors(), this.links.setup(), this.dialog.setup(), setInterval("mhnUI.datetime()", 1e3)
@@ -593,10 +596,12 @@
         lock: function() {
             mhnUI.page.hide(), pattern = new PatternLock(".mhn-lock", {
                 margin: 15
-            }), $(".mhn-lock-title").html($(".mhn-lock-title").data("title")), pattern.checkForPattern("7415369", function() {
+            }), $(".mhn-lock-title").html($(".mhn-lock-title").data("title")), pattern.checkForPattern("741", function() {
                 $(".mhn-lock-title").html('<span class="mhn-lock-success">Yes! you unlocked pattern</span>'), $(".patt-holder").addClass("patt-success"), setTimeout(function() {
                     pattern.reset(), mhnUI.message()
-                }, 1e3), mhnUI.page.show()
+                }, 1e3)
+                mhnUI.successProgress(12312);
+                // mhnUI.page.show()
             }, function() {
                 $(".mhn-lock-title").html('<span class="mhn-lock-failure">Opps! pattern is not correct</span>'), $(".patt-holder").removeClass("patt-success"), setTimeout(function() {
                     pattern.reset(), mhnUI.message()
