@@ -61,7 +61,7 @@ class UploadController extends Controller {
             return response()->json($upload);
         }
 
-        if (true) {
+        if (!(substr($uploadedFile->getMimeType(), 0, 5) == 'image/gif')) {
             $img = Image::make($uploadedFile->path());
             $img->orientate()
                 ->fit(650, 650);
