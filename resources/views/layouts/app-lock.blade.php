@@ -5,15 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-
     <title>Peaceful Place</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="/init/bootstrap.min.css">
-
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
     @yield('HeaderContent')
     <style>
         /*
@@ -394,7 +386,6 @@
         }
     </style>
 </head>
-
 <body>
 <div class="mhn-ui-wrap">
     <div class="mhn-ui-page page-lock">
@@ -571,22 +562,23 @@
         </div>
     </div>
 </div>
-
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="/init/jquery-3.5.1.slim.min.js"></script>
-<script src="/init/popper.min.js"></script>
-<script src="/init/bootstrap.min.js"></script>
-<script src="/js/lib.js"></script>
+
 @yield('FooterContent')
 <script>
+    var configEnv = {
+        passcode:'123654'
+    }
     $(function(){
+
         mhnUI.setup();
     });
     mhnUI = {
+        passcode:configEnv.passcode,
         successProgress:function(mmm){
-            alert(mmm);
             window.location.href = '/';
         },
         pattern: "",
@@ -596,7 +588,7 @@
         lock: function() {
             mhnUI.page.hide(), pattern = new PatternLock(".mhn-lock", {
                 margin: 15
-            }), $(".mhn-lock-title").html($(".mhn-lock-title").data("title")), pattern.checkForPattern("741", function() {
+            }), $(".mhn-lock-title").html($(".mhn-lock-title").data("title")), pattern.checkForPattern(mhnUI.passcode, function() {
                 $(".mhn-lock-title").html('<span class="mhn-lock-success">Yes! you unlocked pattern</span>'), $(".patt-holder").addClass("patt-success"), setTimeout(function() {
                     pattern.reset(), mhnUI.message()
                 }, 1e3)

@@ -4,10 +4,12 @@
 @section('BodyContent')
 <form action="" method="post">
     @csrf
-    <input type="password" class="form-control" name="password">
+    <input type="password" class="form-control" name="password" id="password">
 </form>
 
 @endsection
 @section('FooterContent')
-
+    <script type="text/javascript">
+        $("#password").focus();
+    </script>
 @endsection
