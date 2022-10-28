@@ -298,7 +298,7 @@ $(document).on('visibilitychange', (e)=>{
         console.log('u')
         window.location.href = '/lock';
     }
-});
+} , false);
 
 var current_target = null;
 var current_target_id = null;
