@@ -38,8 +38,6 @@ class MessageController extends Controller {
         event(new SentMessage($m));
         AlertService::chatwork($m->message);
         AlertService::notification('Has new message!');
-        Cache::put('passchat', 'ok', 600);
-
         return $message;
     }
 
