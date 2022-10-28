@@ -88,3 +88,7 @@ Auth::routes();
 // Route::post('/register', function(){});
 Route::get('password/reset', function(){});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/flush', function(){
+    \Illuminate\Support\Facades\Artisan::call('session:flush');
+    return redirect('/');
+});
