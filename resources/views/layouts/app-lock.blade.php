@@ -570,7 +570,7 @@
 @yield('FooterContent')
 <script>
     var configEnv = {
-        passcode:'123654'
+        passcode:'2587'
     }
     $(function(){
 
