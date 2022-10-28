@@ -291,7 +291,14 @@ channel.bind('App\\Events\\SentMessage', (data) => {
 channel.bind('App\\Events\\DeleteMessage', (data) => {
     $("#wrapMessage").trigger('deleteMessage', data.data.id);
 });
-
+$(document).on('visibilitychange', (e)=>{
+    if (document.visibilityState === 'visible') {
+        console.log('v')
+    } else {
+        console.log('u')
+        window.location.href = '/lock';
+    }
+});
 
 var current_target = null;
 var current_target_id = null;

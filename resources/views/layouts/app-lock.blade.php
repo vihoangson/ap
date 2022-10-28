@@ -579,7 +579,7 @@
     mhnUI = {
         passcode:configEnv.passcode,
         successProgress:function(mmm){
-            window.location.href = '/';
+            window.location.href = '/chat';
         },
         pattern: "",
         setup: function() {
