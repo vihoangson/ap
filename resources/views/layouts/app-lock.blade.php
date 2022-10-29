@@ -59,7 +59,7 @@
             overflow: hidden;
             position: relative;
             margin: 30px auto 0;
-            background: url(https://raw.githubusercontent.com/khadkamhn/lock-screen/master/img/mhn-ui-bg.jpg) center no-repeat #2c3e50;
+            background: url(/images/bg-lockscreen.png) center no-repeat #2c3e50;
             box-shadow: 0 17px 50px 0 rgba(0, 0, 0, .19), 0 12px 15px 0 rgba(0, 0, 0, .24)
         }
         .mhn-ui-wrap:before {
