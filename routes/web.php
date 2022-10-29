@@ -47,11 +47,13 @@ Route::post('/password', function (Request $request) {
     $password = $request->input('password');
     if ($password == config('app.password_app', 1234)) {
         Cache::put('pass', 'ok', 3);
+
         return redirect('/');
     }
+
     return redirect('/password');
 });
-Route::get('/lock',function(){
+Route::get('/lock', function () {
     return view('lock');
 });
 Route::get('/content', function () {
@@ -60,35 +62,41 @@ Route::get('/content', function () {
 
 Route::get('/chat', function () {
     $ms = Message::all();
+
     return view('chat', ['ms' => $ms]);
-})->middleware(\App\Http\Middleware\BasicAuth::class);
+})
+     ->middleware(\App\Http\Middleware\BasicAuth::class);
 
 Route::get('/logins', function () {
-    return view ('login');
+    return view('login');
 });
 Route::get('/logout', function () {
     Session::forget('loginbasic');
-    return redirect('/login');
-
+    return redirect('/chat');
 });
 Route::post('/logins', function (Request $request) {
-    if($request->input('password') === config('app.password_app')){
-        Session::put('loginbasic','ok');
+    if ($request->input('password') === config('app.password_app')) {
+        Session::put('loginbasic', 'ok');
+
         return redirect('/chat');
-    }else{
+    } else {
         return redirect('/logins');
     }
 });
 Route::get('/voice', function (Request $request) {
-    return view ('voice');
+    return view('voice');
 });
 
 Auth::routes();
 // Route::get('/register', function(){});
 // Route::post('/register', function(){});
-Route::get('password/reset', function(){});
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/flush', function(){
+Route::get('password/reset', function () { });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+     ->name('home');
+Route::get('/flush', function () {
     \Illuminate\Support\Facades\Artisan::call('session:flush');
+
     return redirect('/');
 });
+
+Route::resource('media', \App\Http\Controllers\MediaController::class)->middleware(\App\Http\Middleware\BasicAuth::class);;

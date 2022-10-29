@@ -19,7 +19,6 @@ class BasicAuth
      */
     public function handle(Request $request, Closure $next)
     {
-
         if(!Session::has('loginbasic')){
             return redirect('/logins');
         }else{
